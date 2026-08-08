@@ -4,7 +4,7 @@ import './TiltCard.css';
 
 export default function TiltCard() {
   const cardRef = useRef(null);
-  const [transformStyle, setTransformStyle] = useState('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
+  const [transformStyle, setTransformStyle] = useState('');
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = (e) => {
@@ -17,8 +17,8 @@ export default function TiltCard() {
     const mouseX = (e.clientX - rect.left) / width - 0.5;
     const mouseY = (e.clientY - rect.top) / height - 0.5;
 
-    // Max rotation angles (degrees)
-    const rotateX = -mouseY * 18; // inverse for natural tilt
+    // Max rotation angles
+    const rotateX = -mouseY * 18;
     const rotateY = mouseX * 18;
 
     setTransformStyle(
@@ -32,15 +32,15 @@ export default function TiltCard() {
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-    setTransformStyle('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
+    setTransformStyle('');
   };
 
   return (
     <div className="tilt-card-container">
       <div
         ref={cardRef}
-        className={`tilt-card ${isHovered ? 'tilt-card--active' : ''}`}
-        style={{ transform: transformStyle }}
+        className={`tilt-card ${isHovered ? 'tilt-card--hovered' : ''}`}
+        style={isHovered ? { transform: transformStyle } : undefined}
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

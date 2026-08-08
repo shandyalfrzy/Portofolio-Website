@@ -4,6 +4,12 @@ import './About.css';
 export default function About() {
   return (
     <section className="about" id="about">
+      {/* Animated blurred gradient blobs (Cyan + Ice Blue tones) */}
+      <div className="about-blobs" aria-hidden="true">
+        <div className="about-blob blob-cyan" />
+        <div className="about-blob blob-ice" />
+      </div>
+
       <div className="about-content container">
         {/* Photo 3D Tilt Card column */}
         <div className="about-photo-col">

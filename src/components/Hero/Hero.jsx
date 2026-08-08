@@ -3,7 +3,7 @@ import './Hero.css';
 export default function Hero() {
   return (
     <section className="hero" id="home">
-      {/* Sky gradient background with floating clouds */}
+      {/* Sky background with floating clouds */}
       <div className="hero-bg" aria-hidden="true">
         <svg className="cloud cloud-1" viewBox="0 0 280 140" fill="white" xmlns="http://www.w3.org/2000/svg">
           <ellipse cx="70" cy="100" rx="70" ry="40" opacity="0.9"/>

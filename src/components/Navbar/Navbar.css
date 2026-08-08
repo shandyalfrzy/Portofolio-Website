@@ -1,5 +1,5 @@
 /* ===================================================
-   Navbar Component Styles
+   Navbar Component Styles (Floating Centered Pill)
    =================================================== */
 
 .navbar-wrapper {
@@ -7,20 +7,16 @@
   top: 28px;
   left: 0;
   right: 0;
-  z-index: 4;
+  z-index: 40;
+  padding: 16px 0;
+  pointer-events: none; /* Allows click-through outside buttons */
+}
+
+.navbar-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px var(--container-padding);
-  transition: padding 0.3s ease, background 0.3s ease;
-}
-
-.navbar-wrapper.navbar-scrolled {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  pointer-events: auto;
 }
 
 /* --- Status badge (left) --- */
@@ -44,7 +40,7 @@
   border-radius: var(--radius-pill);
   border: 1px solid var(--border-nav);
   text-decoration: none;
-  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  transition: all 0.3s ease;
   white-space: nowrap;
 }
 
@@ -91,10 +87,10 @@
   font-weight: 500;
   line-height: 20.3px;
   color: var(--color-navy);
-  padding: 8px 13px;
+  padding: 8px 15px;
   border-radius: var(--radius-pill);
   text-decoration: none;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.25s ease, color 0.25s ease;
   white-space: nowrap;
 }
 
@@ -134,7 +130,7 @@
   border-radius: var(--radius-pill);
   border: 1px solid var(--border-nav);
   text-decoration: none;
-  transition: box-shadow 0.25s ease, transform 0.25s ease, background 0.25s ease;
+  transition: all 0.3s ease;
   white-space: nowrap;
 }
 
@@ -198,11 +194,11 @@
 
 /* --- Responsive --- */
 
-/* Tablet */
 @media (max-width: 1023px) {
+  .navbar-email-btn span {
+    display: none;
+  }
   .navbar-email-btn {
-    font-size: 0;
-    gap: 0;
     padding: 10px;
     width: 40px;
     height: 40px;
@@ -214,11 +210,12 @@
   }
 }
 
-/* Mobile */
 @media (max-width: 639px) {
+  .navbar-status-badge .status-text {
+    display: none;
+  }
   .navbar-status-badge {
-    font-size: 12px;
-    padding: 6px 12px;
+    padding: 8px 10px;
   }
 
   .navbar-hamburger {
@@ -247,6 +244,7 @@
     transform: translateY(0);
     opacity: 1;
     pointer-events: all;
+    background: var(--color-white) !important;
   }
 
   .navbar-links {

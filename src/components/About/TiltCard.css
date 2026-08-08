@@ -1,5 +1,5 @@
 /* ===================================================
-   3D Tilt Photo Card Styles
+   3D Tilt Photo Card Styles + Idle Floating Animation
    =================================================== */
 
 .tilt-card-container {
@@ -22,15 +22,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+  transition: transform 0.2s ease-out, box-shadow 0.3s ease;
   will-change: transform;
   cursor: pointer;
+
+  /* Idle Floating Animation at rest */
+  animation: cardIdleFloat 4s ease-in-out infinite alternate;
 }
 
-.tilt-card--active {
-  box-shadow: rgba(20, 32, 43, 0.18) 0px 20px 40px -12px,
-              rgba(13, 153, 255, 0.12) 0px 0px 24px 0px;
-  border-color: rgba(20, 32, 43, 0.12);
+@keyframes cardIdleFloat {
+  0% {
+    transform: perspective(1000px) translateY(0px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(1000px) translateY(-10px) rotateX(1.5deg) rotateY(-1.5deg);
+  }
+  100% {
+    transform: perspective(1000px) translateY(-4px) rotateX(-1.5deg) rotateY(1.5deg);
+  }
+}
+
+.tilt-card.tilt-card--hovered {
+  /* Pause idle float during active 3D tilt tracking */
+  animation-play-state: paused;
+  box-shadow: rgba(20, 32, 43, 0.18) 0px 24px 48px -12px,
+              rgba(13, 153, 255, 0.15) 0px 0px 28px 0px;
+  border-color: rgba(20, 32, 43, 0.15);
 }
 
 .tilt-card-image-wrapper {
@@ -85,4 +102,10 @@
   font-size: 13px;
   font-weight: 500;
   color: var(--color-slate);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt-card {
+    animation: none !important;
+  }
 }

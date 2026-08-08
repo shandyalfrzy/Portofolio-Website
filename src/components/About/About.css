@@ -1,11 +1,75 @@
 /* ===================================================
-   About Section Styles
+   About Section Styles (Seamless Content on Background)
    =================================================== */
 
 .about {
-  background: var(--color-white);
-  padding: 80px 0;
-  border-top: 1px solid var(--color-light-blue-gray);
+  background: transparent;
+  padding: 100px 0;
+  border-top: 1px solid rgba(20, 32, 43, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+/* --- Animated Blurred Gradient Blobs (Vibrant Cyan + Purple/Ice Tones) --- */
+.about-blobs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.about-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(65px);
+  will-change: transform, opacity;
+}
+
+.about-blob.blob-cyan {
+  width: 520px;
+  height: 520px;
+  top: 5%;
+  left: -80px;
+  background: radial-gradient(circle, rgba(13, 153, 255, 0.35) 0%, rgba(13, 153, 255, 0.02) 70%);
+  animation: about-drift-1 11s ease-in-out infinite alternate;
+}
+
+.about-blob.blob-ice {
+  width: 480px;
+  height: 480px;
+  bottom: 0%;
+  right: -50px;
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.28) 0%, rgba(147, 51, 234, 0.02) 70%);
+  animation: about-drift-2 13s ease-in-out infinite alternate;
+}
+
+@keyframes about-drift-1 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.95);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(80px, 60px, 0) scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes about-drift-2 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(-90px, -40px, 0) scale(0.9);
+    opacity: 0.7;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-blob {
+    animation: none !important;
+  }
 }
 
 .about-content {
@@ -13,9 +77,11 @@
   grid-template-columns: 1fr 1.2fr;
   gap: 64px;
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
-/* --- Photo / Lanyard column --- */
+/* --- Photo column --- */
 .about-photo-col {
   display: flex;
   justify-content: center;
@@ -23,38 +89,7 @@
   width: 100%;
 }
 
-.about-photo {
-  width: 100%;
-  max-width: 380px;
-  height: auto;
-  aspect-ratio: 1;
-  border-radius: 24px;
-  object-fit: cover;
-  box-shadow: var(--shadow-level-3);
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
-}
-
-.about-photo:hover {
-  transform: scale(1.02) rotate(-0.5deg);
-  box-shadow: rgba(20, 32, 43, 0.12) 0px 16px 40px -12px;
-}
-
-.about-photo-label {
-  position: absolute;
-  bottom: 16px;
-  right: -12px;
-  background: var(--color-navy);
-  color: var(--color-white);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 6px 14px;
-  border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-level-2);
-  white-space: nowrap;
-}
-
-/* --- Text column --- */
+/* --- Text column (Seamless on Background, No Boxed Panel) --- */
 .about-text-col {
   display: flex;
   flex-direction: column;
@@ -98,7 +133,7 @@
   display: flex;
   gap: 32px;
   padding-top: 24px;
-  border-top: 1px solid var(--color-light-blue-gray);
+  border-top: 1px solid rgba(20, 32, 43, 0.08);
 }
 
 .about-stat {
@@ -128,7 +163,6 @@
    Responsive
    =================================================== */
 
-/* Tablet */
 @media (max-width: 1023px) {
   .about {
     padding: 60px 0;
@@ -142,10 +176,6 @@
     font-size: 34px;
   }
 
-  .about-photo {
-    max-width: 300px;
-  }
-
   .about-stats {
     gap: 24px;
   }
@@ -155,7 +185,6 @@
   }
 }
 
-/* Mobile */
 @media (max-width: 639px) {
   .about {
     padding: 48px 0;
@@ -165,18 +194,6 @@
     grid-template-columns: 1fr;
     gap: 32px;
     text-align: center;
-  }
-
-  .about-photo {
-    max-width: 260px;
-    border-radius: 20px;
-  }
-
-  .about-photo-label {
-    right: auto;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -14px;
   }
 
   .about-headline {
