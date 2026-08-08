@@ -1,0 +1,162 @@
+/* ===================================================
+   DESIGN SYSTEM — Global Tokens & Reset
+   Based on design-system.md (OhhMyDesign-inspired)
+   =================================================== */
+
+/* --- CSS Custom Properties (Design Tokens) --- */
+:root {
+  /* Primary */
+  --color-navy: #14202B;
+  --color-navy-dark: #0E1620;
+
+  /* Accent */
+  --color-orange: #F0531C;
+  --color-orange-hover: #D2410E;
+  --color-cyan: #0D99FF;
+  --color-green: #27C06B;
+  --color-red: #D2410E;
+
+  /* Interactive */
+  --color-slate: #4A6173;
+  --color-muted: #8AA6B8;
+
+  /* Neutrals */
+  --color-white: #FFFFFF;
+  --color-off-white: #FBFDFF;
+  --color-warm-off-white: #EFEEE9;
+  --color-light-blue-gray: #F1F6FA;
+  --color-black: #000000;
+
+  /* Borders */
+  --border-nav: rgba(20, 32, 43, 0.133);
+  --border-subtle: rgba(20, 32, 43, 0.06);
+
+  /* Shadows */
+  --shadow-level-1: rgba(20, 32, 43, 0.08) 0px 6px 20px -8px;
+  --shadow-level-2: rgba(20, 32, 43, 0.5) 0px 8px 18px -12px;
+  --shadow-level-3: rgba(20, 32, 43, 0.08) 0px 8px 24px -12px;
+  --shadow-level-4: rgba(20, 19, 16, 0.4) 0px 12px 32px -18px;
+  --shadow-level-5: rgb(240, 83, 28) 0px 12px 26px -12px;
+
+  /* Focus */
+  --focus-ring: 0px 0px 0px 3px rgba(13, 153, 255, 0.1);
+
+  /* Typography */
+  --font-display: 'Bricolage Grotesque', 'Segoe UI', sans-serif;
+  --font-body: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+
+  /* Spacing (8px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-9: 36px;
+  --space-10: 40px;
+  --space-11: 44px;
+  --space-12: 48px;
+
+  /* Border Radius */
+  --radius-xs: 4px;
+  --radius-badge: 7px;
+  --radius-button: 10px;
+  --radius-icon-btn: 12px;
+  --radius-card: 14px;
+  --radius-lg: 30px;
+  --radius-pill: 999px;
+
+  /* Layout */
+  --max-width: 1440px;
+  --container-padding: 40px;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Reset --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 29px;
+  color: var(--color-navy);
+  background: var(--color-white);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-navy);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+/* --- Focus states (accessibility) --- */
+a:focus-visible,
+button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* --- Utility container --- */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* --- Responsive --- */
+@media (max-width: 1023px) {
+  :root {
+    --container-padding: 24px;
+  }
+}
+
+@media (max-width: 639px) {
+  :root {
+    --container-padding: 16px;
+  }
+
+  body {
+    font-size: 16px;
+    line-height: 23.2px;
+  }
+}

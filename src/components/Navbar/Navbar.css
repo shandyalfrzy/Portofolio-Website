@@ -1,0 +1,268 @@
+/* ===================================================
+   Navbar Component Styles
+   =================================================== */
+
+.navbar-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px var(--container-padding);
+  transition: padding 0.3s ease, background 0.3s ease;
+}
+
+.navbar-wrapper.navbar-scrolled {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* --- Status badge (left) --- */
+.navbar-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20.3px;
+  color: var(--color-navy);
+  background: var(--color-white);
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-nav);
+  text-decoration: none;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  white-space: nowrap;
+}
+
+.navbar-status-badge:hover {
+  box-shadow: var(--shadow-level-1);
+  transform: translateY(-1px);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-green);
+  flex-shrink: 0;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+/* --- Pill Nav (center) --- */
+.navbar-pill {
+  background: var(--color-white);
+  border: 1px solid var(--border-nav);
+  border-radius: var(--radius-pill);
+  padding: 6px 6px 6px 18px;
+  box-shadow: var(--shadow-level-4);
+  height: 52.3px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.navbar-link {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20.3px;
+  color: var(--color-navy);
+  padding: 8px 13px;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.navbar-link:hover {
+  background: var(--color-light-blue-gray);
+}
+
+.navbar-link--active {
+  background: var(--color-navy);
+  color: var(--color-white);
+}
+
+.navbar-link--active:hover {
+  background: var(--color-navy);
+  color: var(--color-white);
+}
+
+/* --- Email button (right) --- */
+.navbar-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.navbar-email-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20.3px;
+  color: var(--color-navy);
+  background: var(--color-white);
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-nav);
+  text-decoration: none;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, background 0.25s ease;
+  white-space: nowrap;
+}
+
+.navbar-email-btn:hover {
+  box-shadow: var(--shadow-level-1);
+  transform: translateY(-1px);
+  background: var(--color-light-blue-gray);
+}
+
+.navbar-email-btn svg {
+  flex-shrink: 0;
+}
+
+/* --- Hamburger (mobile only) --- */
+.navbar-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  background: var(--color-white);
+  border: 1px solid var(--border-nav);
+  border-radius: var(--radius-icon-btn);
+  cursor: pointer;
+  z-index: 6;
+  transition: box-shadow 0.2s ease;
+}
+
+.navbar-hamburger:hover {
+  box-shadow: var(--shadow-level-1);
+}
+
+.navbar-hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--color-navy);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.navbar-hamburger--open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.navbar-hamburger--open span:nth-child(2) {
+  opacity: 0;
+}
+.navbar-hamburger--open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* --- Mobile overlay --- */
+.navbar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 22, 32, 0.4);
+  z-index: 3;
+}
+
+/* --- Responsive --- */
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .navbar-email-btn {
+    font-size: 0;
+    gap: 0;
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+  }
+  .navbar-email-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 639px) {
+  .navbar-status-badge {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .navbar-hamburger {
+    display: flex;
+  }
+
+  .navbar-pill {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 0;
+    height: auto;
+    padding: 80px 24px 40px;
+    flex-direction: column;
+    justify-content: flex-start;
+    z-index: 5;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+    pointer-events: none;
+  }
+
+  .navbar-pill--open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .navbar-link {
+    font-size: 18px;
+    padding: 14px 20px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .navbar-email-btn {
+    display: none;
+  }
+}
