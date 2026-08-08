@@ -1,0 +1,310 @@
+/* ===================================================
+   Full-Screen Preloader / Intro Animation Styles
+   (Atmospheric Blobs, Staggered Reveal, Shimmer Sheen & Dissipate Exit)
+   =================================================== */
+
+.preloader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #0E1620; /* Dark navy per design-system.md */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.48s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  overflow: hidden;
+}
+
+/* Exit Transition: Content scales down while background blobs dissipate outward */
+.preloader-overlay--fade {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.preloader-overlay--fade .preloader-content {
+  transform: scale(0.92);
+  opacity: 0;
+  transition: transform 0.48s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.48s ease;
+}
+
+.preloader-overlay--fade .preloader-blobs {
+  transform: scale(1.45);
+  opacity: 0;
+  transition: transform 0.48s ease-out, opacity 0.48s ease-out;
+}
+
+/* ===================================================
+   Atmospheric Background Layer (Blobs + Dot Grid)
+   =================================================== */
+
+.preloader-blobs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  will-change: transform, opacity;
+  transition: transform 0.48s ease, opacity 0.48s ease;
+}
+
+.preloader-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  will-change: transform;
+}
+
+.preloader-blobs .blob-orange {
+  width: 540px;
+  height: 540px;
+  background: rgba(240, 83, 28, 0.14); /* Low opacity orange */
+  top: -10%;
+  right: -5%;
+  animation: float-preloader-orange 12s ease-in-out infinite alternate;
+}
+
+.preloader-blobs .blob-cyan {
+  width: 580px;
+  height: 580px;
+  background: rgba(13, 153, 255, 0.12); /* Low opacity cyan */
+  bottom: -15%;
+  left: -8%;
+  animation: float-preloader-cyan 14s ease-in-out infinite alternate;
+}
+
+@keyframes float-preloader-orange {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-50px, 40px) scale(1.12); }
+}
+
+@keyframes float-preloader-cyan {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(40px, -50px) scale(1.08); }
+}
+
+/* Dot Grid Overlay */
+.preloader-dot-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+  opacity: 0.65;
+}
+
+/* ===================================================
+   Preloader Content Container
+   =================================================== */
+
+.preloader-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  padding: 0 24px;
+  max-width: 540px;
+  width: 100%;
+  transform: scale(1);
+  opacity: 1;
+  transition: transform 0.48s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.48s ease;
+}
+
+/* "PORTFOLIO '26" Status Pill with Soft Blinking Dot */
+.preloader-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 6px;
+}
+
+.preloader-pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-orange);
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 8px var(--color-orange);
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.5;
+    box-shadow: 0 0 16px var(--color-orange);
+  }
+}
+
+.preloader-pill-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-white);
+  letter-spacing: 1px;
+}
+
+/* Staggered Letter-by-Letter Name Reveal */
+.preloader-title {
+  font-family: var(--font-display);
+  font-size: 46px;
+  font-weight: 800;
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  margin: 0;
+  perspective: 400px;
+}
+
+.stagger-letter {
+  display: inline-block;
+  opacity: 0;
+  animation: letterSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+@keyframes letterSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(22px) rotateX(-25deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0);
+  }
+}
+
+.preloader-role {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.5px;
+  margin: 0 0 12px;
+}
+
+/* ===================================================
+   Counter & Synced Shimmer Progress Bar
+   =================================================== */
+
+.preloader-progress-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.preloader-counter-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}
+
+/* Counter with Glowing Pulse & Digit Scale-Bounce */
+.preloader-counter {
+  font-family: var(--font-mono);
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--color-orange);
+  line-height: 1;
+  letter-spacing: -1px;
+  text-shadow: 0 0 24px rgba(240, 83, 28, 0.5);
+  display: inline-block;
+  animation: counterGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes counterGlow {
+  0% {
+    text-shadow: 0 0 18px rgba(240, 83, 28, 0.4);
+  }
+  100% {
+    text-shadow: 0 0 32px rgba(240, 83, 28, 0.7);
+  }
+}
+
+.animate-digit {
+  animation: digitPop 0.08s ease-out;
+}
+
+@keyframes digitPop {
+  0% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Progress Bar Background */
+.preloader-bar-bg {
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Progress Fill with Shimmer / Sheen Sweep */
+.preloader-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-orange) 0%, #FF7262 60%, var(--color-orange) 100%);
+  border-radius: 6px;
+  box-shadow: 0 0 14px rgba(240, 83, 28, 0.6);
+  position: relative;
+  overflow: hidden;
+  transition: width 0.04s linear;
+  will-change: width;
+}
+
+/* Moving Shimmer Sheen Sweep */
+.preloader-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.65) 50%,
+    transparent 100%
+  );
+  animation: shimmer-sheen 1.5s infinite;
+}
+
+@keyframes shimmer-sheen {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+/* ===================================================
+   Responsive
+   =================================================== */
+
+@media (max-width: 639px) {
+  .preloader-title {
+    font-size: 34px;
+  }
+  .preloader-counter {
+    font-size: 48px;
+  }
+  .preloader-progress-block {
+    max-width: 260px;
+  }
+}

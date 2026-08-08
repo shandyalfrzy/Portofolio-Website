@@ -1,8 +1,8 @@
 import './Hero.css';
 
-export default function Hero() {
+export default function Hero({ isLoaded = true }) {
   return (
-    <section className="hero" id="home">
+    <section className={`hero ${isLoaded ? 'hero--loaded' : 'hero--loading'}`} id="home">
       {/* Sky background with floating clouds */}
       <div className="hero-bg" aria-hidden="true">
         <svg className="cloud cloud-1" viewBox="0 0 280 140" fill="white" xmlns="http://www.w3.org/2000/svg">

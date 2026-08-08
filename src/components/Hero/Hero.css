@@ -99,7 +99,18 @@
   }
 }
 
-/* --- Hero content --- */
+/* --- Hero content entrance transition after Preloader completes --- */
+.hero--loading .hero-content {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.hero--loaded .hero-content {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .hero-content {
   position: relative;
   z-index: 2;

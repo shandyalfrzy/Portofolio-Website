@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import Preloader from './components/Preloader/Preloader';
 import RulerBar from './components/RulerBar/RulerBar';
 import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
@@ -7,8 +9,15 @@ import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
     <>
+      {/* Full-Screen Preloader / Intro Animation (Plays ONCE per page load) */}
+      {isLoading && (
+        <Preloader onComplete={() => setIsLoading(false)} />
+      )}
+
       {/* Ruler Scroll Progress Bar at very top */}
       <RulerBar />
 
@@ -17,7 +26,7 @@ function App() {
 
       <Navbar />
       <main>
-        <Hero />
+        <Hero isLoaded={!isLoading} />
         <About />
         <Work />
         <Contact />
