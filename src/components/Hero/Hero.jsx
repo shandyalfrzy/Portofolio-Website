@@ -1,5 +1,14 @@
 import './Hero.css';
 
+/* Helper function to split text into per-letter interactive spans */
+const renderInteractiveLetters = (text) => {
+  return text.split('').map((char, index) => (
+    <span key={`${char}-${index}`} className="hero-letter">
+      {char === ' ' ? '\u00A0' : char}
+    </span>
+  ));
+};
+
 export default function Hero({ isLoaded = true }) {
   return (
     <section className={`hero ${isLoaded ? 'hero--loaded' : 'hero--loading'}`} id="home">
@@ -35,11 +44,15 @@ export default function Hero({ isLoaded = true }) {
       </div>
 
       <div className="hero-content container">
-        {/* Headline */}
+        {/* Interactive Per-Letter Headline */}
         <h1 className="hero-headline">
-          I design it,<br />
-          then I build it.<br />
-          <span className="hero-headline-accent">No handoff needed.</span>
+          <span className="hero-headline-line">{renderInteractiveLetters("I DESIGN IT,")}</span>
+          <br />
+          <span className="hero-headline-line">{renderInteractiveLetters("THEN I BUILD IT.")}</span>
+          <br />
+          <span className="hero-headline-accent hero-headline-line">
+            {renderInteractiveLetters("NO HANDOFF NEEDED.")}
+          </span>
         </h1>
 
         {/* Name & Role */}

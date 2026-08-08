@@ -135,8 +135,31 @@
   text-transform: uppercase;
 }
 
+.hero-headline-line {
+  display: inline-block;
+}
+
+/* Per-letter interactive hover micro-interaction */
+.hero-letter {
+  display: inline-block;
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+  cursor: default;
+}
+
+.hero-letter:hover {
+  transform: translateY(-8px) scale(1.12);
+}
+
 .hero-headline-accent {
   background: linear-gradient(135deg, var(--color-orange) 0%, #ff7a47 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-headline-accent .hero-letter {
+  background: inherit;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
