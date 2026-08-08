@@ -1,5 +1,5 @@
 /* ===================================================
-   3D Tilt Photo Card Styles + Idle Floating Animation
+   3D Tilt Photo Card Styles + Parallax Layered Depth
    =================================================== */
 
 .tilt-card-container {
@@ -22,9 +22,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.2s ease-out, box-shadow 0.3s ease;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
   will-change: transform;
   cursor: pointer;
+  transform-style: preserve-3d;
 
   /* Idle Floating Animation at rest */
   animation: cardIdleFloat 4s ease-in-out infinite alternate;
@@ -43,11 +44,10 @@
 }
 
 .tilt-card.tilt-card--hovered {
-  /* Pause idle float during active 3D tilt tracking */
   animation-play-state: paused;
-  box-shadow: rgba(20, 32, 43, 0.18) 0px 24px 48px -12px,
-              rgba(13, 153, 255, 0.15) 0px 0px 28px 0px;
-  border-color: rgba(20, 32, 43, 0.15);
+  box-shadow: rgba(20, 32, 43, 0.2) 0px 28px 56px -12px,
+              rgba(13, 153, 255, 0.2) 0px 0px 32px 0px;
+  border-color: rgba(20, 32, 43, 0.18);
 }
 
 .tilt-card-image-wrapper {
@@ -57,6 +57,7 @@
   overflow: hidden;
   margin-bottom: 16px;
   aspect-ratio: 1;
+  transform-style: preserve-3d;
 }
 
 .tilt-card-image {
@@ -64,6 +65,8 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 
 .tilt-card-tag {
@@ -78,6 +81,7 @@
   padding: 4px 10px;
   border-radius: var(--radius-pill);
   box-shadow: var(--shadow-level-2);
+  transform: translateZ(30px); /* 3D pop out */
 }
 
 .tilt-card-caption {
@@ -87,6 +91,7 @@
   gap: 4px;
   text-align: center;
   padding-bottom: 4px;
+  transform: translateZ(20px);
 }
 
 .tilt-card-name {
