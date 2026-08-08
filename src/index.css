@@ -98,8 +98,24 @@ body {
   font-weight: 500;
   line-height: 29px;
   color: var(--color-navy);
-  background: var(--color-white);
+  background-color: #F8FCFF;
   overflow-x: hidden;
+  position: relative;
+}
+
+/* --- Fixed Global Background Layer (Gradient Mesh + Faint Dot-Grid) --- */
+.global-bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(var(--color-navy) 1px, transparent 1px),
+    radial-gradient(circle at 10% 20%, rgba(184, 223, 248, 0.45) 0%, transparent 40%),
+    radial-gradient(circle at 90% 60%, rgba(13, 153, 255, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(240, 83, 28, 0.08) 0%, transparent 40%);
+  background-size: 24px 24px, 100% 100%, 100% 100%, 100% 100%;
+  opacity: 0.75;
 }
 
 h1, h2, h3, h4, h5, h6 {

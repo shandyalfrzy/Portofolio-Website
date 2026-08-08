@@ -1,22 +1,13 @@
-import profileImg from '../../assets/profile.png';
+import TiltCard from './TiltCard';
 import './About.css';
 
 export default function About() {
   return (
     <section className="about" id="about">
       <div className="about-content container">
-        {/* Photo side */}
+        {/* Photo 3D Tilt Card column */}
         <div className="about-photo-col">
-          <div className="about-photo-wrapper">
-            <img
-              src={profileImg}
-              alt="Shandy Alfrzy — UI/UX Designer & Web Developer"
-              className="about-photo"
-              width="400"
-              height="400"
-            />
-            <span className="about-photo-label">That's me ✦</span>
-          </div>
+          <TiltCard />
         </div>
 
         {/* Text side */}

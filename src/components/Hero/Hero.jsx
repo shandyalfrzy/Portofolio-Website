@@ -37,18 +37,21 @@ export default function Hero() {
       <div className="hero-content container">
         {/* Headline */}
         <h1 className="hero-headline">
-          Impossible<br />
-          <span className="hero-headline-accent">to ignore.</span>
+          I design it,<br />
+          then I build it.<br />
+          <span className="hero-headline-accent">No handoff needed.</span>
         </h1>
 
+        {/* Name & Role */}
+        <p className="hero-name">
+          Shandy Alfrizy — <span>UI/UX Designer &amp; Web Developer</span>
+        </p>
+
         {/* Subtext */}
-        <div className="hero-subtext-block">
-          <span className="hero-subtext-label">WE DON'T DO FORGETTABLE ★</span>
-          <p className="hero-subtext">
-            Most interfaces you can scroll right past. The ones I build<br className="hero-br-desktop" />
-            do this to your eyes.
-          </p>
-        </div>
+        <p className="hero-subtext">
+          Most interfaces you can scroll right past. The ones I build<br className="hero-br-desktop" />
+          do this to your eyes.
+        </p>
 
         {/* CTA Buttons */}
         <div className="hero-cta">

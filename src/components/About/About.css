@@ -15,15 +15,12 @@
   align-items: center;
 }
 
-/* --- Photo column --- */
+/* --- Photo / Lanyard column --- */
 .about-photo-col {
   display: flex;
   justify-content: center;
-}
-
-.about-photo-wrapper {
-  position: relative;
-  display: inline-block;
+  align-items: center;
+  width: 100%;
 }
 
 .about-photo {

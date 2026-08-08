@@ -1,0 +1,121 @@
+/* ===================================================
+   Ruler Scroll Progress Bar Styles
+   =================================================== */
+
+.ruler-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background: var(--color-navy);
+  color: var(--color-white);
+  z-index: 10;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Orange Progress Fill */
+.ruler-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, rgba(240, 83, 28, 0.85) 0%, var(--color-orange) 100%);
+  transition: width 0.1s ease-out;
+  z-index: 1;
+  box-shadow: 0 0 12px rgba(240, 83, 28, 0.5);
+}
+
+.ruler-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.ruler-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.ruler-percent-badge {
+  background: var(--color-orange);
+  color: var(--color-white);
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+  font-size: 10px;
+}
+
+.ruler-ticks-container {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  opacity: 0.7;
+}
+
+.ruler-tick-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+}
+
+.ruler-tick-mark {
+  width: 1px;
+  height: 8px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.ruler-tick-val {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.ruler-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.ruler-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-green);
+  box-shadow: 0 0 6px var(--color-green);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.ruler-live-text {
+  color: var(--color-green);
+  margin-right: 4px;
+}
+
+.ruler-time {
+  opacity: 0.85;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .ruler-ticks-container {
+    display: none;
+  }
+}
