@@ -1,5 +1,5 @@
 /* ===================================================
-   Hero Section Styles (Clean Sky Background)
+   Hero Section Styles (Saturated Clear-Sky + Blurred Clouds)
    =================================================== */
 
 .hero {
@@ -10,13 +10,14 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  /* Rich, saturated clear-day blue background gradient */
   background: linear-gradient(
     180deg,
-    #b8dff8 0%,
-    #cbe8fd 25%,
-    #dcf0fe 50%,
-    #eaf5fe 75%,
-    #f5fbff 100%
+    #3296e6 0%,
+    #5bb1f4 25%,
+    #88cbfd 50%,
+    #bfe3fe 75%,
+    #eef7ff 100%
   );
 }
 
@@ -31,47 +32,50 @@
 
 .cloud {
   position: absolute;
-  opacity: 0.92;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.04));
+  opacity: 0.88;
+  /* Soft atmospheric blur + subtle elevation shadow */
+  filter: blur(3px) drop-shadow(0 4px 12px rgba(20, 32, 43, 0.08));
+  will-change: transform;
 }
 
+/* Clouds with 1.5x - 2x faster drift speed */
 .cloud-1 {
-  width: 280px;
+  width: 300px;
   top: 5%;
   right: -20px;
-  animation: float-cloud 25s ease-in-out infinite;
+  animation: float-cloud 14s ease-in-out infinite;
 }
 
 .cloud-2 {
-  width: 180px;
+  width: 200px;
   top: 15%;
-  left: 5%;
-  animation: float-cloud 30s ease-in-out infinite reverse;
-  animation-delay: -5s;
-}
-
-.cloud-3 {
-  width: 320px;
-  bottom: 8%;
-  left: -40px;
-  animation: float-cloud 28s ease-in-out infinite;
-  animation-delay: -10s;
-}
-
-.cloud-4 {
-  width: 160px;
-  top: 55%;
-  right: 8%;
-  animation: float-cloud 22s ease-in-out infinite reverse;
+  left: 4%;
+  animation: float-cloud 16s ease-in-out infinite reverse;
   animation-delay: -3s;
 }
 
+.cloud-3 {
+  width: 340px;
+  bottom: 8%;
+  left: -40px;
+  animation: float-cloud 15s ease-in-out infinite;
+  animation-delay: -6s;
+}
+
+.cloud-4 {
+  width: 170px;
+  top: 55%;
+  right: 8%;
+  animation: float-cloud 12s ease-in-out infinite reverse;
+  animation-delay: -2s;
+}
+
 .cloud-5 {
-  width: 220px;
+  width: 240px;
   bottom: 20%;
-  right: 20%;
-  animation: float-cloud 32s ease-in-out infinite;
-  animation-delay: -15s;
+  right: 18%;
+  animation: float-cloud 17s ease-in-out infinite;
+  animation-delay: -9s;
 }
 
 @keyframes float-cloud {
@@ -79,13 +83,19 @@
     transform: translateX(0) translateY(0);
   }
   25% {
-    transform: translateX(20px) translateY(-8px);
+    transform: translateX(30px) translateY(-12px);
   }
   50% {
-    transform: translateX(-10px) translateY(5px);
+    transform: translateX(-20px) translateY(8px);
   }
   75% {
-    transform: translateX(15px) translateY(-3px);
+    transform: translateX(25px) translateY(-5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud {
+    animation: none !important;
   }
 }
 
@@ -133,7 +143,7 @@
 }
 
 .hero-name span {
-  color: var(--color-slate);
+  color: rgba(20, 32, 43, 0.7);
 }
 
 /* --- Subtext --- */
@@ -142,7 +152,7 @@
   font-size: 20px;
   font-weight: 500;
   line-height: 29px;
-  color: var(--color-slate);
+  color: rgba(20, 32, 43, 0.85);
   max-width: 580px;
   margin-bottom: 32px;
 }
@@ -192,7 +202,7 @@
 }
 
 .btn-secondary {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.85);
   color: var(--color-navy);
   border: 1px solid var(--color-navy);
   min-width: 133px;
