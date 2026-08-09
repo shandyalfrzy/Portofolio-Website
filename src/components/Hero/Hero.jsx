@@ -5,6 +5,14 @@ import './Hero.css';
 export default function Hero({ isLoaded = true }) {
   const [ref, revealed] = useScrollReveal({ threshold: 0.05, rootMargin: '0px' });
 
+  const handleMouseEnter = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty('--circle-x', `${x}px`);
+    e.currentTarget.style.setProperty('--circle-y', `${y}px`);
+  };
+
   return (
     <section className={`hero ${isLoaded ? 'hero--loaded' : 'hero--loading'}`} id="home" ref={ref}>
       <div className="hero-bg" aria-hidden="true">
@@ -89,14 +97,31 @@ export default function Hero({ isLoaded = true }) {
           data-reveal
           style={{ '--reveal-delay': '310ms' }}
         >
-          <a href="#work" className="btn btn-primary" id="cta-see-work">
-            See my work
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
+          <a
+            href="#work"
+            className="btn btn-primary"
+            id="cta-see-work"
+            onMouseEnter={handleMouseEnter}
+          >
+            <span className="btn-circle-reveal" aria-hidden="true" />
+            <span className="btn-label">
+              See my work
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </span>
           </a>
-          <a href="#contact" className="btn btn-secondary" id="cta-get-in-touch">
-            Get in touch
+
+          <a
+            href="#contact"
+            className="btn btn-secondary"
+            id="cta-get-in-touch"
+            onMouseEnter={handleMouseEnter}
+          >
+            <span className="btn-circle-reveal" aria-hidden="true" />
+            <span className="btn-label">
+              Get in touch
+            </span>
           </a>
         </div>
       </div>
