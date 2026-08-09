@@ -7,12 +7,16 @@ import About from './components/About/About';
 import Work from './components/Work/Work';
 import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
+import CustomCursor from './components/CustomCursor/CustomCursor';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
     <>
+      {/* Custom Multiplayer 'You' Cursor (Desktop mouse/fine pointer devices only) */}
+      <CustomCursor />
+
       {/* Full-Screen Preloader / Intro Animation (Plays ONCE per page load) */}
       {isLoading && (
         <Preloader onComplete={() => setIsLoading(false)} />

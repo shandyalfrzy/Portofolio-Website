@@ -135,8 +135,8 @@
 }
 
 .form-input::placeholder {
-  color: var(--color-muted);
-  opacity: 0.55;
+  color: rgba(86, 86, 86, 0.58);
+  opacity: 1;
   font-size: 24px;
 }
 
