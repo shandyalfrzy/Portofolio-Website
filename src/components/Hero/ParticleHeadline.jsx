@@ -99,6 +99,9 @@ export default function ParticleHeadline() {
     const tempCanvas = document.createElement('canvas');
     const tempCtx = tempCanvas.getContext('2d');
     tempCtx.font = `400 ${fs}px Anton, sans-serif`;
+    if ('letterSpacing' in tempCtx) {
+      tempCtx.letterSpacing = '-0.03em';
+    }
     
     let maxLineWidth = 0;
     LINES.forEach(line => {
@@ -110,8 +113,8 @@ export default function ParticleHeadline() {
       fs = Math.floor(fs * (W * 0.94 / maxLineWidth));
     }
 
-    const lineH = Math.round(fs * 0.88);     // ultra-tight: lines nearly touching
-    const padY  = Math.round(fs * 0.16);     // top/bottom breathing room
+    const lineH = Math.round(fs * 0.98);     // distinct breathing room between lines
+    const padY  = Math.round(fs * 0.20);     // top/bottom breathing room
     const H     = lineH * LINES.length + padY;
 
     // Resize the main canvas (DPR-sharp)
@@ -132,6 +135,9 @@ export default function ParticleHeadline() {
     offCtx.clearRect(0, 0, W, H);
     offCtx.fillStyle    = '#fff';
     offCtx.font         = `400 ${fs}px Anton, sans-serif`;
+    if ('letterSpacing' in offCtx) {
+      offCtx.letterSpacing = '-0.03em';
+    }
     offCtx.textBaseline = 'top';
 
     const topY = padY / 2;

@@ -6,25 +6,25 @@
 /* --- CSS Custom Properties (Design Tokens) --- */
 :root {
   /* Primary */
-  --color-navy: #14202B;
-  --color-navy-dark: #0E1620;
+  --color-navy: #14202b;
+  --color-navy-dark: #0e1620;
 
   /* Accent */
-  --color-orange: #F0531C;
-  --color-orange-hover: #D2410E;
-  --color-cyan: #0D99FF;
-  --color-green: #27C06B;
-  --color-red: #D2410E;
+  --color-orange: #f0531c;
+  --color-orange-hover: #d2410e;
+  --color-cyan: #0d99ff;
+  --color-green: #27c06b;
+  --color-red: #d2410e;
 
   /* Interactive */
-  --color-slate: #4A6173;
-  --color-muted: #8AA6B8;
+  --color-slate: #4a6173;
+  --color-muted: #8aa6b8;
 
   /* Neutrals */
-  --color-white: #FFFFFF;
-  --color-off-white: #FBFDFF;
-  --color-warm-off-white: #EFEEE9;
-  --color-light-blue-gray: #F1F6FA;
+  --color-white: #ffffff;
+  --color-off-white: #fbfdff;
+  --color-warm-off-white: #efeee9;
+  --color-light-blue-gray: #f1f6fa;
   --color-black: #000000;
 
   /* Borders */
@@ -42,9 +42,11 @@
   --focus-ring: 0px 0px 0px 3px rgba(13, 153, 255, 0.1);
 
   /* Typography */
-  --font-display: 'Bricolage Grotesque', 'Segoe UI', sans-serif;
-  --font-body: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'Space Mono', monospace;
+  --font-display: "Bricolage Grotesque", "Segoe UI", sans-serif;
+  --font-body:
+    "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  --font-mono: "Space Mono", monospace;
 
   /* Spacing (8px base) */
   --space-1: 4px;
@@ -98,7 +100,7 @@ body {
   font-weight: 500;
   line-height: 29px;
   color: var(--color-navy);
-  background-color: #F8FCFF;
+  background-color: #f8fcff;
   overflow-x: hidden;
   position: relative;
 }
@@ -111,13 +113,34 @@ body {
   pointer-events: none;
   background-image:
     radial-gradient(rgba(20, 32, 43, 0.08) 1px, transparent 1px),
-    radial-gradient(circle at 10% 20%, rgba(184, 223, 248, 0.35) 0%, transparent 40%),
-    radial-gradient(circle at 90% 60%, rgba(13, 153, 255, 0.08) 0%, transparent 45%),
-    radial-gradient(circle at 50% 90%, rgba(240, 83, 28, 0.05) 0%, transparent 40%);
-  background-size: 28px 28px, 100% 100%, 100% 100%, 100% 100%;
+    radial-gradient(
+      circle at 10% 20%,
+      rgba(184, 223, 248, 0.35) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 90% 60%,
+      rgba(13, 153, 255, 0.08) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 50% 90%,
+      rgba(240, 83, 28, 0.05) 0%,
+      transparent 40%
+    );
+  background-size:
+    28px 28px,
+    100% 100%,
+    100% 100%,
+    100% 100%;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--color-navy);
 }
 
@@ -186,26 +209,29 @@ button:focus-visible {
 
 [data-reveal] {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(32px);
+  filter: blur(10px);
   transition:
-    opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 2s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 2s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 2s cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
 [data-reveal].is-revealed {
   opacity: 1;
   transform: translateY(0);
+  filter: blur(0px);
 }
 
 /* Faster variant for small/inline elements */
 [data-reveal="fast"] {
-  transition-duration: 0.4s;
+  transition-duration: 0.7s;
 }
 
 /* Slightly slower for large hero/section titles */
 [data-reveal="slow"] {
-  transition-duration: 0.7s;
+  transition-duration: 1.1s;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -215,4 +241,3 @@ button:focus-visible {
     transition: none !important;
   }
 }
-

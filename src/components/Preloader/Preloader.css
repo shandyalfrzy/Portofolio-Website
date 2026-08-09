@@ -1,100 +1,68 @@
 /* ===================================================
    Full-Screen Preloader / Intro Animation Styles
-   (Atmospheric Blobs, Staggered Reveal, Shimmer Sheen & Dissipate Exit)
+   White theme with curtain-open reveal
    =================================================== */
 
 .preloader-overlay {
   position: fixed;
   inset: 0;
   z-index: 99999;
-  background: #0E1620; /* Dark navy per design-system.md */
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 1;
-  transition: opacity 0.48s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
   overflow: hidden;
+  pointer-events: all;
 }
 
-/* Exit Transition: Content scales down while background blobs dissipate outward */
 .preloader-overlay--fade {
-  opacity: 0;
   pointer-events: none;
 }
 
-.preloader-overlay--fade .preloader-content {
-  transform: scale(0.92);
-  opacity: 0;
-  transition: transform 0.48s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.48s ease;
-}
-
-.preloader-overlay--fade .preloader-blobs {
-  transform: scale(1.45);
-  opacity: 0;
-  transition: transform 0.48s ease-out, opacity 0.48s ease-out;
-}
-
-/* ===================================================
-   Atmospheric Background Layer (Blobs + Dot Grid)
-   =================================================== */
-
-.preloader-blobs {
+/* --- Curtain halves --- */
+.preloader-curtain {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: #ffffff;
   z-index: 1;
-  overflow: hidden;
-  will-change: transform, opacity;
-  transition: transform 0.48s ease, opacity 0.48s ease;
-}
-
-.preloader-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
+  transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
   will-change: transform;
 }
 
-.preloader-blobs .blob-orange {
-  width: 540px;
-  height: 540px;
-  background: rgba(240, 83, 28, 0.14); /* Low opacity orange */
-  top: -10%;
-  right: -5%;
-  animation: float-preloader-orange 12s ease-in-out infinite alternate;
+.preloader-curtain--left {
+  left: 0;
+  transform: translateX(0);
 }
 
-.preloader-blobs .blob-cyan {
-  width: 580px;
-  height: 580px;
-  background: rgba(13, 153, 255, 0.12); /* Low opacity cyan */
-  bottom: -15%;
-  left: -8%;
-  animation: float-preloader-cyan 14s ease-in-out infinite alternate;
+.preloader-curtain--right {
+  right: 0;
+  transform: translateX(0);
 }
 
-@keyframes float-preloader-orange {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(-50px, 40px) scale(1.12); }
+.preloader-overlay--fade .preloader-curtain--left {
+  transform: translateX(-100%);
 }
 
-@keyframes float-preloader-cyan {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(40px, -50px) scale(1.08); }
+.preloader-overlay--fade .preloader-curtain--right {
+  transform: translateX(100%);
 }
 
-/* Dot Grid Overlay */
-.preloader-dot-grid {
+/* Box grid pattern on curtain panels */
+.preloader-curtain::after {
+  content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1.2px, transparent 1.2px);
-  background-size: 24px 24px;
-  opacity: 0.65;
+  background-image:
+    linear-gradient(rgba(20, 32, 43, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 32, 43, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
 }
 
 /* ===================================================
-   Preloader Content Container
+   Preloader Content Container (centered on top of curtains)
    =================================================== */
 
 .preloader-content {
@@ -110,17 +78,22 @@
   width: 100%;
   transform: scale(1);
   opacity: 1;
-  transition: transform 0.48s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.48s ease;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
 }
 
-/* "PORTFOLIO '26" Status Pill with Soft Blinking Dot */
+.preloader-overlay--fade .preloader-content {
+  transform: scale(0.92);
+  opacity: 0;
+}
+
+/* "PORTFOLIO '26" Status Pill */
 .preloader-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(20, 32, 43, 0.04);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(20, 32, 43, 0.1);
   padding: 5px 14px;
   border-radius: var(--radius-pill);
   margin-bottom: 6px;
@@ -151,7 +124,7 @@
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
-  color: var(--color-white);
+  color: var(--color-navy);
   letter-spacing: 1px;
 }
 
@@ -160,7 +133,7 @@
   font-family: var(--font-display);
   font-size: 46px;
   font-weight: 800;
-  color: var(--color-white);
+  color: var(--color-navy);
   text-transform: uppercase;
   letter-spacing: -0.5px;
   line-height: 1.1;
@@ -190,7 +163,7 @@
   font-family: var(--font-mono);
   font-size: 13px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(20, 32, 43, 0.5);
   letter-spacing: 0.5px;
   margin: 0 0 12px;
 }
@@ -214,7 +187,6 @@
   justify-content: center;
 }
 
-/* Counter with Glowing Pulse & Digit Scale-Bounce */
 .preloader-counter {
   font-family: var(--font-mono);
   font-size: 64px;
@@ -222,17 +194,17 @@
   color: var(--color-orange);
   line-height: 1;
   letter-spacing: -1px;
-  text-shadow: 0 0 24px rgba(240, 83, 28, 0.5);
+  text-shadow: 0 0 24px rgba(240, 83, 28, 0.3);
   display: inline-block;
   animation: counterGlow 2s ease-in-out infinite alternate;
 }
 
 @keyframes counterGlow {
   0% {
-    text-shadow: 0 0 18px rgba(240, 83, 28, 0.4);
+    text-shadow: 0 0 18px rgba(240, 83, 28, 0.2);
   }
   100% {
-    text-shadow: 0 0 32px rgba(240, 83, 28, 0.7);
+    text-shadow: 0 0 32px rgba(240, 83, 28, 0.45);
   }
 }
 
@@ -249,25 +221,24 @@
 .preloader-bar-bg {
   width: 100%;
   height: 5px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(20, 32, 43, 0.08);
   border-radius: 6px;
   overflow: hidden;
   position: relative;
 }
 
-/* Progress Fill with Shimmer / Sheen Sweep */
+/* Progress Fill with Shimmer */
 .preloader-bar-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--color-orange) 0%, #FF7262 60%, var(--color-orange) 100%);
   border-radius: 6px;
-  box-shadow: 0 0 14px rgba(240, 83, 28, 0.6);
+  box-shadow: 0 0 14px rgba(240, 83, 28, 0.4);
   position: relative;
   overflow: hidden;
   transition: width 0.04s linear;
   will-change: width;
 }
 
-/* Moving Shimmer Sheen Sweep */
 .preloader-bar-fill::after {
   content: '';
   position: absolute;

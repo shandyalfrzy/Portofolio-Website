@@ -18,20 +18,18 @@ export default function TiltCard() {
     const mouseX = (e.clientX - rect.left) / width - 0.5;
     const mouseY = (e.clientY - rect.top) / height - 0.5;
 
-    // 3D tilt angles (up to 20deg for smooth card rotation)
-    const rotateX = -mouseY * 20;
-    const rotateY = mouseX * 20;
+    const rotateX = -mouseY * 8;
+    const rotateY = mouseX * 8;
 
-    // Subtle photo parallax shift inside frame
-    const shiftX = -mouseX * 10;
-    const shiftY = -mouseY * 10;
+    const shiftX = -mouseX * 5;
+    const shiftY = -mouseY * 5;
 
     setCardTransform(
-      `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.04, 1.04, 1.04)`
+      `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`
     );
 
     setImageTransform(
-      `translate3d(${shiftX.toFixed(2)}px, ${shiftY.toFixed(2)}px, 15px) scale(1.04)`
+      `translate3d(${shiftX.toFixed(2)}px, ${shiftY.toFixed(2)}px, 8px) scale(1.02)`
     );
   };
 
@@ -56,17 +54,17 @@ export default function TiltCard() {
     const mouseX = (touch.clientX - rect.left) / width - 0.5;
     const mouseY = (touch.clientY - rect.top) / height - 0.5;
 
-    const rotateX = -mouseY * 20;
-    const rotateY = mouseX * 20;
-    const shiftX = -mouseX * 10;
-    const shiftY = -mouseY * 10;
+    const rotateX = -mouseY * 8;
+    const rotateY = mouseX * 8;
+    const shiftX = -mouseX * 5;
+    const shiftY = -mouseY * 5;
 
     setCardTransform(
-      `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.04, 1.04, 1.04)`
+      `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`
     );
 
     setImageTransform(
-      `translate3d(${shiftX.toFixed(2)}px, ${shiftY.toFixed(2)}px, 15px) scale(1.04)`
+      `translate3d(${shiftX.toFixed(2)}px, ${shiftY.toFixed(2)}px, 8px) scale(1.02)`
     );
   };
 
@@ -91,19 +89,20 @@ export default function TiltCard() {
         onTouchMove={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <div className="tilt-card-image-wrapper">
-          <img
-            src={profileImg}
-            alt="Shandy Alfrizy"
-            className="tilt-card-image"
-            style={isHovered ? { transform: imageTransform } : undefined}
-          />
-          <span className="tilt-card-tag">That's me ✦</span>
-        </div>
+        <div className="tilt-card-inner">
+          <div className="tilt-card-image-wrapper">
+            <img
+              src={profileImg}
+              alt="Shandy Alfrizy"
+              className="tilt-card-image"
+              style={isHovered ? { transform: imageTransform } : undefined}
+            />
+          </div>
 
-        <div className="tilt-card-caption">
-          <span className="tilt-card-name">SHANDY ALFRIZY</span>
-          <span className="tilt-card-role">UI/UX Designer &amp; Web Developer</span>
+          <div className="tilt-card-caption">
+            <span className="tilt-card-name">SHANDY ALFRIZY</span>
+            <span className="tilt-card-role">UI/UX Designer &amp; Web Developer</span>
+          </div>
         </div>
       </div>
     </div>

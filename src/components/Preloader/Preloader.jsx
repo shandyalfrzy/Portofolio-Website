@@ -8,12 +8,10 @@ export default function Preloader({ onComplete }) {
   const nameText = "SHANDY ALFARIZY";
 
   useEffect(() => {
-    // Lock body scroll while preloader is active
     document.body.style.overflow = 'hidden';
 
-    // 2.2s total count duration
     const duration = 2200;
-    const intervalTime = 20; // 50 updates/sec
+    const intervalTime = 20;
     const steps = duration / intervalTime;
     let currentStep = 0;
 
@@ -31,16 +29,14 @@ export default function Preloader({ onComplete }) {
         clearInterval(timer);
         setProgress(100);
 
-        // Hold at 100% briefly (~250ms), then start cinematic dissipation exit
         setTimeout(() => {
           setIsFading(true);
 
-          // After exit transition (480ms), unlock scroll & call onComplete
           setTimeout(() => {
             document.body.style.overflow = '';
             if (onComplete) onComplete();
-          }, 480);
-        }, 250);
+          }, 1000);
+        }, 300);
       }
     }, intervalTime);
 
@@ -56,21 +52,15 @@ export default function Preloader({ onComplete }) {
       id="preloader-overlay"
       aria-label="Loading Portfolio"
     >
-      {/* Animated Blurred Gradient Blobs + Dot Grid Layer */}
-      <div className="preloader-blobs" aria-hidden="true">
-        <div className="preloader-blob blob-orange" />
-        <div className="preloader-blob blob-cyan" />
-        <div className="preloader-dot-grid" />
-      </div>
+      <div className="preloader-curtain preloader-curtain--left" aria-hidden="true" />
+      <div className="preloader-curtain preloader-curtain--right" aria-hidden="true" />
 
       <div className="preloader-content">
-        {/* "PORTFOLIO '26" Status Pill with Soft Blinking Dot */}
         <div className="preloader-pill">
           <span className="preloader-pill-dot" />
           <span className="preloader-pill-label">PORTFOLIO '26</span>
         </div>
 
-        {/* Staggered Letter-by-Letter Name Reveal */}
         <h1 className="preloader-title" aria-label={nameText}>
           {nameText.split('').map((char, idx) => (
             <span
@@ -85,7 +75,6 @@ export default function Preloader({ onComplete }) {
 
         <p className="preloader-role">UI/UX Designer &amp; Web Developer</p>
 
-        {/* Counter with Glow/Pulse + Shimmer Progress Bar */}
         <div className="preloader-progress-block">
           <div className="preloader-counter-row">
             <span key={progress} className="preloader-counter animate-digit">

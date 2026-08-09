@@ -67,18 +67,12 @@ export function useScrollReveal({ rootMargin = '0px 0px 0px 0px', threshold = 0.
     window.addEventListener('hashchange', checkVisibility, { passive: true });
     window.addEventListener('nav-scroll', checkVisibility, { passive: true });
 
-    // 4. Safety fallback: if in DOM for > 2s, force visible
-    const safetyTimer = setTimeout(() => {
-      trigger();
-    }, 2000);
-
     return () => {
       observer.disconnect();
       window.removeEventListener('scroll', checkVisibility);
       window.removeEventListener('scrollend', checkVisibility);
       window.removeEventListener('hashchange', checkVisibility);
       window.removeEventListener('nav-scroll', checkVisibility);
-      clearTimeout(safetyTimer);
     };
   }, [rootMargin, threshold]);
 
