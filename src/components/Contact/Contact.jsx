@@ -47,33 +47,13 @@ const socialLinks = [
 ];
 
 export default function Contact() {
-  const sectionRef = useRef(null);
   const textareaRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [revealRef, revealed] = useScrollReveal({ threshold: 0.1 });
+  const [revealRef, revealed] = useScrollReveal({ threshold: 0.05 });
 
   /* Form State */
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState({ type: null, message: '' });
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.15 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-      revealRef.current = sectionRef.current;
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -143,7 +123,7 @@ export default function Contact() {
   };
 
   return (
-    <section className={`contact ${isVisible ? 'contact--visible' : ''}`} id="contact" ref={sectionRef}>
+    <section className={`contact ${revealed ? 'contact--visible' : ''}`} id="contact" ref={revealRef}>
       {/* Animated blurred gradient blobs (Orange + Navy) */}
       <div className="contact-blobs" aria-hidden="true">
         <div className="contact-blob blob-orange" />

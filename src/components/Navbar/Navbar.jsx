@@ -50,8 +50,13 @@ export default function Navbar() {
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
+
+    window.dispatchEvent(new Event('nav-scroll'));
+    setTimeout(() => window.dispatchEvent(new Event('nav-scroll')), 150);
+    setTimeout(() => window.dispatchEvent(new Event('nav-scroll')), 500);
     setTimeout(() => {
       clickScrolling.current = false;
+      window.dispatchEvent(new Event('nav-scroll'));
     }, 900);
   };
 
