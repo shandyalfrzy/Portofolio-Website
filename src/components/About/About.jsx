@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import TiltCard from './TiltCard';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 import './About.css';
 
 const statsData = [
@@ -12,6 +13,7 @@ export default function About() {
   const sectionRef = useRef(null);
   const [hasAnimated, setHasAnimated] = useState(false);
   const [counts, setCounts] = useState([0, 0, 0]);
+  const [revealRef, revealed] = useScrollReveal({ threshold: 0.12 });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -54,45 +56,72 @@ export default function About() {
   }, [hasAnimated]);
 
   return (
-    <section className="about" id="about" ref={sectionRef}>
-      {/* Animated blurred gradient blobs (Cyan + Ice Blue tones) */}
+    <section className="about" id="about" ref={(el) => { sectionRef.current = el; revealRef.current = el; }}>
       <div className="about-blobs" aria-hidden="true">
         <div className="about-blob blob-cyan" />
         <div className="about-blob blob-ice" />
       </div>
 
       <div className="about-content container">
-        {/* Photo 3D Tilt Card column */}
         <div className="about-photo-col">
-          <TiltCard />
+          <div
+            className={`${revealed ? 'is-revealed' : ''}`}
+            data-reveal
+            style={{ '--reveal-delay': '0ms' }}
+          >
+            <TiltCard />
+          </div>
         </div>
 
-        {/* Text side */}
         <div className="about-text-col">
-          <span className="about-label">ABOUT ME</span>
-          <h2 className="about-headline">
+          <span
+            className={`about-label ${revealed ? 'is-revealed' : ''}`}
+            data-reveal="fast"
+            style={{ '--reveal-delay': '60ms' }}
+          >ABOUT ME</span>
+          <h2
+            className={`about-headline ${revealed ? 'is-revealed' : ''}`}
+            data-reveal="slow"
+            style={{ '--reveal-delay': '130ms' }}
+          >
             Designer who codes.<br />
             Developer who designs.
           </h2>
-          <p className="about-bio">
+          <p
+            className={`about-bio ${revealed ? 'is-revealed' : ''}`}
+            data-reveal
+            style={{ '--reveal-delay': '230ms' }}
+          >
             I'm Shandy — a UI/UX Designer and Web Developer who believes great digital
             products happen when design and engineering think together, not in silos.
           </p>
-          <p className="about-bio">
+          <p
+            className={`about-bio ${revealed ? 'is-revealed' : ''}`}
+            data-reveal
+            style={{ '--reveal-delay': '310ms' }}
+          >
             I'm passionate about crafting interfaces that don't just look good but feel
             intuitive — the kind of experiences people use without thinking about. From
             wireframes to fully functional code, I handle the entire journey independently.
           </p>
-          <p className="about-bio">
+          <p
+            className={`about-bio ${revealed ? 'is-revealed' : ''}`}
+            data-reveal
+            style={{ '--reveal-delay': '390ms' }}
+          >
             My approach is simple: understand the people, obsess over the details, and
             ship work that earns a second look. Whether it's a brand-new product or an
             existing one that needs a rethink, I bring both the pixels and the logic.
           </p>
 
-          {/* Animated Count-Up Stat Numbers */}
           <div className="about-stats">
             {statsData.map((stat, idx) => (
-              <div key={stat.label} className="about-stat">
+              <div
+                key={stat.label}
+                className={`about-stat ${revealed ? 'is-revealed' : ''}`}
+                data-reveal
+                style={{ '--reveal-delay': `${480 + idx * 80}ms` }}
+              >
                 <span className="about-stat-number">
                   {counts[idx]}
                   {stat.suffix}

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import weddingImg from '../../assets/Wedding.png';
 import desakitaImg from '../../assets/DesaKita.png';
 import mymedalarmImg from '../../assets/MyMedAlarm.png';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 import './Work.css';
 
 /* ===================================================
@@ -198,13 +199,15 @@ const extendedProjects = [
 ];
 
 export default function Work() {
-  const [trackIdx, setTrackIdx] = useState(1); // Start at 1 (real P0)
+  const [trackIdx, setTrackIdx] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(true);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartX, setDragStartX] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const wheelLockRef = useRef(false);
+  const [techRef, techRevealed] = useScrollReveal({ threshold: 0.1 });
+  const [projRef, projRevealed] = useScrollReveal({ threshold: 0.08 });
 
   const triggerInteraction = () => {
     if (!hasInteracted) setHasInteracted(true);
@@ -322,15 +325,26 @@ export default function Work() {
         {/* ===================================================
            SUBSECTION 1: TOOLS & TECH (INFINITE AUTO-SCROLLING MARQUEE)
            =================================================== */}
-        <div className="tech-stack-section">
+        <div className="tech-stack-section" ref={techRef}>
           <div className="tech-stack-header">
-            <span className="work-label">TOOLS &amp; TECH</span>
-            <h2 className="tech-stack-title">My Craft &amp; Toolkit</h2>
+            <span
+              className={`work-label ${techRevealed ? 'is-revealed' : ''}`}
+              data-reveal="fast"
+              style={{ '--reveal-delay': '0ms' }}
+            >TOOLS &amp; TECH</span>
+            <h2
+              className={`tech-stack-title ${techRevealed ? 'is-revealed' : ''}`}
+              data-reveal="slow"
+              style={{ '--reveal-delay': '80ms' }}
+            >My Craft &amp; Toolkit</h2>
           </div>
 
           <div className="tech-groups-container">
-            {/* Design Group (Marquee Left) */}
-            <div className="tech-group-block">
+            <div
+              className={`tech-group-block ${techRevealed ? 'is-revealed' : ''}`}
+              data-reveal
+              style={{ '--reveal-delay': '180ms' }}
+            >
               <div className="tech-group-header">
                 <span className="tech-group-label">DESIGN</span>
                 <span className="tech-group-count">{designTools.length} tools</span>
@@ -352,8 +366,11 @@ export default function Work() {
               </div>
             </div>
 
-            {/* Development Group (Marquee Right) */}
-            <div className="tech-group-block">
+            <div
+              className={`tech-group-block ${techRevealed ? 'is-revealed' : ''}`}
+              data-reveal
+              style={{ '--reveal-delay': '280ms' }}
+            >
               <div className="tech-group-header">
                 <span className="tech-group-label">DEVELOPMENT</span>
                 <span className="tech-group-count">{devTools.length} tools</span>
@@ -380,11 +397,19 @@ export default function Work() {
         {/* ===================================================
            SUBSECTION 2: FEATURED PROJECTS (INFINITE PEEK FLEX CAROUSEL)
            =================================================== */}
-        <div className="featured-projects-section">
+        <div className="featured-projects-section" ref={projRef}>
           <div className="projects-header-row">
             <div>
-              <span className="work-label">SELECTED WORK</span>
-              <h2 className="projects-title">Featured Projects</h2>
+              <span
+                className={`work-label ${projRevealed ? 'is-revealed' : ''}`}
+                data-reveal="fast"
+                style={{ '--reveal-delay': '0ms' }}
+              >SELECTED WORK</span>
+              <h2
+                className={`projects-title ${projRevealed ? 'is-revealed' : ''}`}
+                data-reveal="slow"
+                style={{ '--reveal-delay': '80ms' }}
+              >Featured Projects</h2>
             </div>
 
             {/* Carousel Navigation & Counter */}
@@ -421,7 +446,9 @@ export default function Work() {
 
           {/* Infinite Peek Carousel Viewport */}
           <div
-            className="peek-carousel-viewport"
+            className={`peek-carousel-viewport ${projRevealed ? 'is-revealed' : ''}`}
+            data-reveal
+            style={{ '--reveal-delay': '160ms' }}
             onWheel={handleWheel}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}

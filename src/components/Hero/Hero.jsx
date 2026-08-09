@@ -1,6 +1,6 @@
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 import './Hero.css';
 
-/* Helper function to split text into per-letter interactive spans */
 const renderInteractiveLetters = (text) => {
   return text.split('').map((char, index) => (
     <span key={`${char}-${index}`} className="hero-letter">
@@ -10,9 +10,10 @@ const renderInteractiveLetters = (text) => {
 };
 
 export default function Hero({ isLoaded = true }) {
+  const [ref, revealed] = useScrollReveal({ threshold: 0.05, rootMargin: '0px' });
+
   return (
-    <section className={`hero ${isLoaded ? 'hero--loaded' : 'hero--loading'}`} id="home">
-      {/* Sky background with floating clouds */}
+    <section className={`hero ${isLoaded ? 'hero--loaded' : 'hero--loading'}`} id="home" ref={ref}>
       <div className="hero-bg" aria-hidden="true">
         <svg className="cloud cloud-1" viewBox="0 0 280 140" fill="white" xmlns="http://www.w3.org/2000/svg">
           <ellipse cx="70" cy="100" rx="70" ry="40" opacity="0.9"/>
@@ -44,7 +45,7 @@ export default function Hero({ isLoaded = true }) {
       </div>
 
       <div className="hero-content container">
-        {/* Interactive Per-Letter Headline */}
+        {/* h1 is handled by the preloader hero--loaded transition, not scroll-reveal */}
         <h1 className="hero-headline">
           <span className="hero-headline-line">{renderInteractiveLetters("I DESIGN IT,")}</span>
           <br />
@@ -55,19 +56,28 @@ export default function Hero({ isLoaded = true }) {
           </span>
         </h1>
 
-        {/* Name & Role */}
-        <p className="hero-name">
+        <p
+          className={`hero-name ${revealed ? 'is-revealed' : ''}`}
+          data-reveal
+          style={{ '--reveal-delay': '100ms' }}
+        >
           Shandy Alfrizy — <span>UI/UX Designer &amp; Web Developer</span>
         </p>
 
-        {/* Subtext */}
-        <p className="hero-subtext">
+        <p
+          className={`hero-subtext ${revealed ? 'is-revealed' : ''}`}
+          data-reveal
+          style={{ '--reveal-delay': '200ms' }}
+        >
           Most interfaces you can scroll right past. The ones I build<br className="hero-br-desktop" />
           do this to your eyes.
         </p>
 
-        {/* CTA Buttons */}
-        <div className="hero-cta">
+        <div
+          className={`hero-cta ${revealed ? 'is-revealed' : ''}`}
+          data-reveal
+          style={{ '--reveal-delay': '310ms' }}
+        >
           <a href="#work" className="btn btn-primary" id="cta-see-work">
             See my work
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -80,13 +90,20 @@ export default function Hero({ isLoaded = true }) {
         </div>
       </div>
 
-      {/* Bottom info bar */}
       <div className="hero-bottom-bar">
-        <div className="hero-bottom-left">
+        <div
+          className={`hero-bottom-left ${revealed ? 'is-revealed' : ''}`}
+          data-reveal="fast"
+          style={{ '--reveal-delay': '420ms' }}
+        >
           <span className="hero-bottom-label">WORKING WORLDWIDE</span>
           <span className="hero-bottom-sub">NO OFFICE, ON PURPOSE</span>
         </div>
-        <div className="hero-bottom-right">
+        <div
+          className={`hero-bottom-right ${revealed ? 'is-revealed' : ''}`}
+          data-reveal="fast"
+          style={{ '--reveal-delay': '490ms' }}
+        >
           <span className="hero-bottom-label">OPEN FOR 2026</span>
           <span className="hero-bottom-sub">YOUR TIMEZONE, HANDLED</span>
         </div>

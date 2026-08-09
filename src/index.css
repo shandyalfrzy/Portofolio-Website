@@ -175,3 +175,44 @@ button:focus-visible {
     line-height: 23.2px;
   }
 }
+
+/* ===================================================
+   SCROLL-REVEAL ANIMATION SYSTEM
+   Elements start hidden (opacity:0, translateY:24px).
+   Add class .is-revealed to animate in.
+   Use --reveal-delay CSS var for stagger offsets.
+   All animations disabled for prefers-reduced-motion.
+   =================================================== */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Faster variant for small/inline elements */
+[data-reveal="fast"] {
+  transition-duration: 0.4s;
+}
+
+/* Slightly slower for large hero/section titles */
+[data-reveal="slow"] {
+  transition-duration: 0.7s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+

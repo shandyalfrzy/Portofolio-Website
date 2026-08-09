@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 import './Contact.css';
 
 /* ===================================================
@@ -56,6 +57,7 @@ const socialLinks = [
 export default function Contact() {
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [revealRef, revealed] = useScrollReveal({ threshold: 0.1 });
 
   /* Form State */
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -74,6 +76,7 @@ export default function Contact() {
 
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
+      revealRef.current = sectionRef.current;
     }
 
     return () => observer.disconnect();
@@ -157,9 +160,21 @@ export default function Contact() {
 
       <div className="contact-content container">
         <div className="contact-header">
-          <span className="contact-label">GET IN TOUCH</span>
-          <h2 className="contact-headline">Let's connect</h2>
-          <p className="contact-subtext">
+          <span
+            className={`contact-label ${revealed ? 'is-revealed' : ''}`}
+            data-reveal="fast"
+            style={{ '--reveal-delay': '0ms' }}
+          >GET IN TOUCH</span>
+          <h2
+            className={`contact-headline ${revealed ? 'is-revealed' : ''}`}
+            data-reveal="slow"
+            style={{ '--reveal-delay': '80ms' }}
+          >Let's connect</h2>
+          <p
+            className={`contact-subtext ${revealed ? 'is-revealed' : ''}`}
+            data-reveal
+            style={{ '--reveal-delay': '180ms' }}
+          >
             Have a project in mind, a question, or just want to say hello?<br className="contact-br-desktop" />
             Send me a message or connect through my socials below.
           </p>
@@ -168,8 +183,11 @@ export default function Contact() {
         {/* Contact Split Layout: Working Form + Social Links */}
         <div className="contact-split-layout">
 
-          {/* Working Contact Form */}
-          <div className="contact-form-container">
+          <div
+            className={`contact-form-container ${revealed ? 'is-revealed' : ''}`}
+            data-reveal
+            style={{ '--reveal-delay': '260ms' }}
+          >
             <form className="contact-form" onSubmit={handleSubmit} noValidate>
               <div className="form-group">
                 <label htmlFor="contact-name" className="form-label">
@@ -243,8 +261,11 @@ export default function Contact() {
             </form>
           </div>
 
-          {/* Social Links Cards (GitHub, LinkedIn, Instagram, Discord) */}
-          <div className="contact-social-col">
+          <div
+            className={`contact-social-col ${revealed ? 'is-revealed' : ''}`}
+            data-reveal
+            style={{ '--reveal-delay': '340ms' }}
+          >
             <h3 className="social-col-title">Or reach out directly</h3>
             <div className="contact-grid">
               {socialLinks.map((link, idx) => (
@@ -253,9 +274,10 @@ export default function Contact() {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`contact-card ${link.brandClass}`}
+                  className={`contact-card ${link.brandClass} ${revealed ? 'is-revealed' : ''}`}
+                  data-reveal="fast"
+                  style={{ '--reveal-delay': `${380 + idx * 70}ms` }}
                   id={`contact-${link.id}`}
-                  style={{ animationDelay: `${idx * 0.1}s` }}
                 >
                   <div className="contact-card-icon">{link.icon}</div>
                   <span className="contact-card-name">{link.name}</span>
