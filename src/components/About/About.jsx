@@ -1,9 +1,60 @@
+import { useEffect, useRef, useState } from 'react';
 import TiltCard from './TiltCard';
 import './About.css';
 
+const statsData = [
+  { target: 2, suffix: '+', label: 'YEARS EXPERIENCE' },
+  { target: 15, suffix: '+', label: 'PROJECTS COMPLETED' },
+  { target: 100, suffix: '%', label: 'INDEPENDENT WORK' },
+];
+
 export default function About() {
+  const sectionRef = useRef(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const [counts, setCounts] = useState([0, 0, 0]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+
+          // Animate count-up over 1.8 seconds (1800ms) with ease-out cubic curve
+          const duration = 1800;
+          const intervalTime = 30;
+          const steps = duration / intervalTime;
+          let currentStep = 0;
+
+          const timer = setInterval(() => {
+            currentStep++;
+            const progress = Math.min(1, currentStep / steps);
+            const easeOutProgress = 1 - Math.pow(1 - progress, 3);
+
+            setCounts([
+              Math.round(statsData[0].target * easeOutProgress),
+              Math.round(statsData[1].target * easeOutProgress),
+              Math.round(statsData[2].target * easeOutProgress),
+            ]);
+
+            if (currentStep >= steps) {
+              clearInterval(timer);
+              setCounts([statsData[0].target, statsData[1].target, statsData[2].target]);
+            }
+          }, intervalTime);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasAnimated]);
+
   return (
-    <section className="about" id="about">
+    <section className="about" id="about" ref={sectionRef}>
       {/* Animated blurred gradient blobs (Cyan + Ice Blue tones) */}
       <div className="about-blobs" aria-hidden="true">
         <div className="about-blob blob-cyan" />
@@ -38,19 +89,17 @@ export default function About() {
             existing one that needs a rethink, I bring both the pixels and the logic.
           </p>
 
+          {/* Animated Count-Up Stat Numbers */}
           <div className="about-stats">
-            <div className="about-stat">
-              <span className="about-stat-number">2+</span>
-              <span className="about-stat-label">YEARS EXPERIENCE</span>
-            </div>
-            <div className="about-stat">
-              <span className="about-stat-number">15+</span>
-              <span className="about-stat-label">PROJECTS COMPLETED</span>
-            </div>
-            <div className="about-stat">
-              <span className="about-stat-number">100%</span>
-              <span className="about-stat-label">INDEPENDENT WORK</span>
-            </div>
+            {statsData.map((stat, idx) => (
+              <div key={stat.label} className="about-stat">
+                <span className="about-stat-number">
+                  {counts[idx]}
+                  {stat.suffix}
+                </span>
+                <span className="about-stat-label">{stat.label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

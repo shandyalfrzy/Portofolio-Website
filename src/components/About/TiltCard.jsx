@@ -14,24 +14,24 @@ export default function TiltCard() {
     const width = rect.width;
     const height = rect.height;
 
-    // Calculate normalized mouse offset relative to card center (-0.5 to 0.5)
+    // Normalized mouse offset from center (-0.5 to 0.5)
     const mouseX = (e.clientX - rect.left) / width - 0.5;
     const mouseY = (e.clientY - rect.top) / height - 0.5;
 
-    // Enhanced 3D tilt angles (up to 22deg)
-    const rotateX = -mouseY * 22;
-    const rotateY = mouseX * 22;
+    // 3D tilt angles (up to 20deg for smooth card rotation)
+    const rotateX = -mouseY * 20;
+    const rotateY = mouseX * 20;
 
-    // Parallax shift on the photo inside (shifts slightly opposite to tilt for layered depth)
-    const shiftX = -mouseX * 14;
-    const shiftY = -mouseY * 14;
+    // Subtle photo parallax shift inside frame
+    const shiftX = -mouseX * 10;
+    const shiftY = -mouseY * 10;
 
     setCardTransform(
-      `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.05, 1.05, 1.05)`
+      `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.04, 1.04, 1.04)`
     );
 
     setImageTransform(
-      `translate3d(${shiftX.toFixed(2)}px, ${shiftY.toFixed(2)}px, 25px) scale(1.08)`
+      `translate3d(${shiftX.toFixed(2)}px, ${shiftY.toFixed(2)}px, 15px) scale(1.04)`
     );
   };
 

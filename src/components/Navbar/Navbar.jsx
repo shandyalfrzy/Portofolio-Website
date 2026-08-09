@@ -1,31 +1,63 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Navbar.css';
 
 const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Work', href: '#work' },
+  { label: 'Home',    href: '#home'    },
+  { label: 'About',   href: '#about'   },
+  { label: 'Work',    href: '#work'    },
   { label: 'Contact', href: '#contact' },
 ];
 
 export default function Navbar() {
   const [activeLink, setActiveLink] = useState('#home');
   const [mobileOpen, setMobileOpen] = useState(false);
+  const clickScrolling = useRef(false);
+
+  useEffect(() => {
+    const sectionIds = navLinks.map((l) => l.href.slice(1));
+    const observers = [];
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && !clickScrolling.current) {
+            setActiveLink(`#${id}`);
+          }
+        },
+        {
+          rootMargin: '-45% 0px -45% 0px',
+          threshold: 0,
+        }
+      );
+
+      obs.observe(el);
+      observers.push(obs);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
 
   const handleLinkClick = (e, href) => {
     e.preventDefault();
     setActiveLink(href);
     setMobileOpen(false);
+
+    clickScrolling.current = true;
     const el = document.querySelector(href);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
+    setTimeout(() => {
+      clickScrolling.current = false;
+    }, 900);
   };
 
   return (
     <header className="navbar-wrapper" id="navbar">
       <div className="navbar-container container">
-        {/* Left: Status badge */}
         <div className="navbar-left">
           <a
             href="#home"
@@ -37,7 +69,6 @@ export default function Navbar() {
           </a>
         </div>
 
-        {/* Center: Floating Pill Nav */}
         <nav
           className={`navbar-pill ${mobileOpen ? 'navbar-pill--open' : ''}`}
           aria-label="Main navigation"
@@ -57,7 +88,6 @@ export default function Navbar() {
           </ul>
         </nav>
 
-        {/* Right: Email button */}
         <div className="navbar-right">
           <a href="mailto:shandyalfrzy@gmail.com" className="navbar-email-btn" id="navbar-email">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -68,7 +98,6 @@ export default function Navbar() {
           </a>
         </div>
 
-        {/* Hamburger (mobile) */}
         <button
           className={`navbar-hamburger ${mobileOpen ? 'navbar-hamburger--open' : ''}`}
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -82,7 +111,6 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile overlay */}
       {mobileOpen && <div className="navbar-overlay" onClick={() => setMobileOpen(false)} />}
     </header>
   );

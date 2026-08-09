@@ -1,5 +1,15 @@
 /* ===================================================
-   3D Tilt Photo Card Styles + Parallax Layered Depth
+   3D Tilt Photo Card Styles + Animated Conic Rainbow Glow Halo
+   =================================================== */
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* ===================================================
+   Container — glow lives here, NOT on .tilt-card itself
    =================================================== */
 
 .tilt-card-container {
@@ -7,22 +17,83 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 20px 0;
+  padding: 24px 0;
   perspective: 1000px;
+  position: relative;   /* needed for ::before positioning */
+  overflow: visible;
 }
 
+/* ===================================================
+   Continuous 360° Rotating Conic Rainbow Glow Halo
+   Lives on the CONTAINER, behind the solid-white card.
+
+   Geometry:
+   - top: 24px / bottom: 24px  → matches card area inside padded container
+   - width: min(360px, 100%)   → matches card max-width
+   - margin: -6px              → expands exactly 6px beyond each card edge
+   - blur: 14px exactly
+   - z-index: 0 (card is z-index:1 above it)
+
+   The solid white card background covers the glow completely
+   over the card face. The glow is only visible as a slim halo
+   around the card border. It cannot reach below the card's
+   bottom edge because this pseudo-element's bottom is pinned
+   to the same baseline as the card bottom (container bottom - 24px).
+   =================================================== */
+
+.tilt-card-container::before {
+  content: '';
+  position: absolute;
+  top: 24px;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(360px, 100%);
+  margin: -6px;                          /* 6px bleed beyond card edges */
+  border-radius: calc(var(--radius-card) + 5px); /* ~19px */
+  z-index: 0;
+  background: conic-gradient(
+    from var(--angle),
+    #F0531C 0deg,
+    #0D99FF 90deg,
+    #9333EA 180deg,
+    #5BB1F4 270deg,
+    #F0531C 360deg
+  );
+  filter: blur(14px);
+  opacity: 0.8;
+  animation: rotateConicGlow 6s linear infinite;
+  transition: opacity 0.3s ease;
+  will-change: opacity;
+  pointer-events: none;
+}
+
+@keyframes rotateConicGlow {
+  to {
+    --angle: 360deg;
+  }
+}
+
+/* ===================================================
+   Card — z-index:1 sits above container::before glow.
+   Solid white background naturally occludes the glow
+   on the card face. NO isolation:isolate (that broke
+   z-index stacking on ::before). NO ::before on card.
+   =================================================== */
+
 .tilt-card {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 360px;
-  background: var(--color-white);
-  border-radius: var(--radius-card); /* 14px */
+  background: #FFFFFF !important;
+  border-radius: var(--radius-card);
   border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-level-3);
   padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
   cursor: pointer;
   transform-style: preserve-3d;
@@ -31,25 +102,32 @@
   animation: cardIdleFloat 4s ease-in-out infinite alternate;
 }
 
+/* Idle Floating Animation Keyframes */
 @keyframes cardIdleFloat {
   0% {
     transform: perspective(1000px) translateY(0px) rotateX(0deg) rotateY(0deg);
   }
   50% {
-    transform: perspective(1000px) translateY(-10px) rotateX(1.5deg) rotateY(-1.5deg);
+    transform: perspective(1000px) translateY(-10px) rotateX(1.8deg) rotateY(-1.8deg);
   }
   100% {
-    transform: perspective(1000px) translateY(-4px) rotateX(-1.5deg) rotateY(1.5deg);
+    transform: perspective(1000px) translateY(-4px) rotateX(-1.8deg) rotateY(1.8deg);
   }
 }
 
+/* Hover State: stop idle float, boost glow via container */
 .tilt-card.tilt-card--hovered {
-  animation-play-state: paused;
-  box-shadow: rgba(20, 32, 43, 0.2) 0px 28px 56px -12px,
-              rgba(13, 153, 255, 0.2) 0px 0px 32px 0px;
-  border-color: rgba(20, 32, 43, 0.18);
+  animation: none !important;
+  transition: transform 0.08s ease-out;
+  border-color: rgba(13, 153, 255, 0.4);
 }
 
+.tilt-card-container:has(.tilt-card--hovered)::before {
+  filter: blur(14px);
+  opacity: 0.95;
+}
+
+/* Photo Image Wrapper & 3D Layer Separation */
 .tilt-card-image-wrapper {
   width: 100%;
   position: relative;
@@ -58,6 +136,7 @@
   margin-bottom: 16px;
   aspect-ratio: 1;
   transform-style: preserve-3d;
+  background: #EAEFF5;
 }
 
 .tilt-card-image {
@@ -65,23 +144,23 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
 .tilt-card-tag {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: 12px;
+  right: 12px;
   background: var(--color-navy);
   color: var(--color-white);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-level-2);
-  transform: translateZ(30px); /* 3D pop out */
+  box-shadow: 0 6px 16px rgba(14, 22, 32, 0.35);
+  transform: translateZ(20px);
 }
 
 .tilt-card-caption {
@@ -91,14 +170,16 @@
   gap: 4px;
   text-align: center;
   padding-bottom: 4px;
-  transform: translateZ(20px);
+  transform: translateZ(15px);
+  position: relative;
+  z-index: 2;
 }
 
 .tilt-card-name {
   font-family: var(--font-display);
   font-size: 18px;
   font-weight: 800;
-  color: var(--color-navy);
+  color: #14202B !important;
   letter-spacing: 0.5px;
 }
 
@@ -106,11 +187,14 @@
   font-family: var(--font-body);
   font-size: 13px;
   font-weight: 500;
-  color: var(--color-slate);
+  color: #4A6173 !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .tilt-card {
+    animation: none !important;
+  }
+  .tilt-card-container::before {
     animation: none !important;
   }
 }

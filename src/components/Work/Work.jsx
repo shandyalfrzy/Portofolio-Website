@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import taskflowImg from '../../assets/project-taskflow.png';
-import finpulseImg from '../../assets/project-finpulse.png';
-import novaosImg from '../../assets/project-novaos.png';
-import auraImg from '../../assets/project-aura.png';
+import weddingImg from '../../assets/Wedding.png';
+import desakitaImg from '../../assets/DesaKita.png';
+import mymedalarmImg from '../../assets/MyMedAlarm.png';
 import './Work.css';
 
 /* ===================================================
@@ -145,71 +144,56 @@ const devTools = [
 const designMarqueeList = [...designTools, ...designTools, ...designTools];
 const devMarqueeList = [...devTools, ...devTools, ...devTools];
 
-/* 4 Featured Projects Data */
+/* 3 Real Projects */
 const projects = [
   {
-    id: 'taskflow',
+    id: 'wedding',
     type: 'dev',
     statusText: 'LIVE',
     statusColor: '#27C06B',
     bulletColor: '#F0531C',
-    title: 'TaskFlow — AI Workspace',
+    title: 'Wedding Invitation Website',
     description:
-      'A modern project management dashboard combining real-time collaboration widgets with AI-driven task scheduling.',
-    image: taskflowImg,
-    tags: ['React', 'JavaScript', 'HTML/CSS', 'Figma'],
-    targetUrl: 'https://example.com/taskflow',
-    codeUrl: 'https://github.com/shandyalfrzy/taskflow',
+      'A custom digital wedding invitation site built for Dina & Aji, featuring RSVP functionality and event details.',
+    image: weddingImg,
+    tags: ['React', 'JavaScript', 'Web Development'],
+    targetUrl: 'https://undangan-wedding-dina-aji.vercel.app/',
+    codeUrl: 'https://github.com/shandyalfrzy/Undangan-Wedding',
   },
   {
-    id: 'finpulse',
+    id: 'desakita',
     type: 'design',
     statusText: 'DESIGN',
     statusColor: '#0D99FF',
     bulletColor: '#0D99FF',
-    title: 'FinPulse — Mobile Banking UI',
+    title: 'DesaKita Companion',
     description:
-      'A sleek, accessible mobile banking interface designed in Figma with high-contrast data visualization and card flows.',
-    image: finpulseImg,
-    tags: ['Figma', 'DbDiagram', 'UI/UX Design'],
-    targetUrl: 'https://figma.com/@shandyalfrzy/finpulse',
+      'A UI/UX case study for a village tourism companion app, designed to help visitors discover and navigate local attractions.',
+    image: desakitaImg,
+    tags: ['Figma', 'UI/UX Design'],
+    targetUrl: 'https://www.figma.com/design/aMiDbhNSMFz4AiFw9r5SUh/dpp-project-desa-wisata-kemiling?node-id=778-399&t=VwZiNdUNnK0iCMya-1',
   },
   {
-    id: 'novaos',
-    type: 'dev',
-    statusText: 'LIVE',
-    statusColor: '#27C06B',
-    bulletColor: '#27C06B',
-    title: 'NovaOS — Web Desktop Experience',
-    description:
-      'An interactive web-based desktop environment featuring window management, custom widgets, and fluid micro-interactions.',
-    image: novaosImg,
-    tags: ['React', 'JavaScript', 'Figma', 'HTML/CSS'],
-    targetUrl: 'https://example.com/novaos',
-    codeUrl: 'https://github.com/shandyalfrzy/novaos',
-  },
-  {
-    id: 'aura',
+    id: 'mymedalarm',
     type: 'design',
     statusText: 'DESIGN',
-    statusColor: '#9333EA',
+    statusColor: '#0D99FF',
     bulletColor: '#9333EA',
-    title: 'Aura Health — Wellness App Study',
+    title: 'MyMedAlarm',
     description:
-      'Comprehensive UI/UX case study and design system for a mindfulness app, focusing on calming mood tracking flows.',
-    image: auraImg,
-    tags: ['Figma', 'Canva', 'User Research'],
-    targetUrl: 'https://figma.com/@shandyalfrzy/aura-health',
+      'A UI/UX design for a medication reminder app, focused on helping users stay consistent with their medication schedules.',
+    image: mymedalarmImg,
+    tags: ['Figma', 'UI/UX Design'],
+    targetUrl: 'https://www.figma.com/design/OzdNqKOxOflrLfWafn9D1R/Shandy---MyMed-Alarm?node-id=0-1&t=sr27hjeic22wM3WJ-1',
   },
 ];
 
-/* 6 Track Items for Infinite Circular Wrapping: [P3, P0, P1, P2, P3, P0] */
+/* 5 Track Items for Infinite Circular Wrapping (3 real items): [P2, P0, P1, P2, P0] */
 const extendedProjects = [
-  { ...projects[3], cloneKey: 'clone-head-p3', originalIdx: 3 },
+  { ...projects[2], cloneKey: 'clone-head-p2', originalIdx: 2 },
   { ...projects[0], cloneKey: 'real-p0', originalIdx: 0 },
   { ...projects[1], cloneKey: 'real-p1', originalIdx: 1 },
   { ...projects[2], cloneKey: 'real-p2', originalIdx: 2 },
-  { ...projects[3], cloneKey: 'real-p3', originalIdx: 3 },
   { ...projects[0], cloneKey: 'clone-tail-p0', originalIdx: 0 },
 ];
 
@@ -247,8 +231,8 @@ export default function Work() {
   const handleTransitionEnd = () => {
     if (trackIdx === 0) {
       setIsTransitioning(false);
-      setTrackIdx(4); // Silent jump to real P3
-    } else if (trackIdx === 5) {
+      setTrackIdx(3); // Silent jump to real P2
+    } else if (trackIdx === 4) {
       setIsTransitioning(false);
       setTrackIdx(1); // Silent jump to real P0
     }
