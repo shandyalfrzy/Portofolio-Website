@@ -9,9 +9,9 @@ const navLinks = [
 
 const socialLinks = [
   { label: 'GitHub',    href: 'https://github.com/shandyalfrzy'       },
-  { label: 'LinkedIn',  href: 'https://linkedin.com/in/shandyalfrzy'  },
+  { label: 'LinkedIn',  href: 'https://www.linkedin.com/in/shandy-alfarizy-1641252b2/'  },
   { label: 'Instagram', href: 'https://instagram.com/shandyalfrzy'    },
-  { label: 'Discord',   href: 'https://discord.gg/shandyalfrzy'       },
+  { label: 'Discord',   href: 'https://discord.com/users/aparijiy'       },
 ];
 
 const scrollToTop = () => {

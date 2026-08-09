@@ -206,8 +206,21 @@ export default function Work() {
   const [dragStartX, setDragStartX] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const wheelLockRef = useRef(false);
+  const viewportRef = useRef(null);
+  const [viewportWidth, setViewportWidth] = useState(0);
   const [techRef, techRevealed] = useScrollReveal({ threshold: 0.1 });
   const [projRef, projRevealed] = useScrollReveal({ threshold: 0.08 });
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (viewportRef.current) {
+        setViewportWidth(viewportRef.current.clientWidth);
+      }
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
 
   const triggerInteraction = () => {
     if (!hasInteracted) setHasInteracted(true);
@@ -310,9 +323,14 @@ export default function Work() {
     }
   };
 
-  // Synchronized item width & gap for exact centering
-  const slideStep = 780;
-  const slideHalf = 370;
+  // Synchronized item width & gap for exact centering across screen sizes
+  const isMobile = viewportWidth > 0 ? viewportWidth < 768 : (typeof window !== 'undefined' && window.innerWidth < 768);
+  const cardWidth = isMobile
+    ? (viewportWidth > 0 ? viewportWidth : 340)
+    : Math.min(740, viewportWidth > 0 ? viewportWidth : 740);
+  const gap = isMobile ? 20 : 40;
+  const slideStep = cardWidth + gap;
+  const slideHalf = cardWidth / 2;
   const currentOffsetPx = trackIdx * slideStep + slideHalf - dragOffset;
 
   // Real index (0 to 3) for counter & active dots
@@ -446,6 +464,7 @@ export default function Work() {
 
           {/* Infinite Peek Carousel Viewport */}
           <div
+            ref={viewportRef}
             className={`peek-carousel-viewport ${projRevealed ? 'is-revealed' : ''}`}
             data-reveal
             style={{ '--reveal-delay': '160ms' }}
@@ -462,6 +481,7 @@ export default function Work() {
               className="peek-carousel-track"
               onTransitionEnd={handleTransitionEnd}
               style={{
+                gap: `${gap}px`,
                 transform: `translateX(calc(50% - ${currentOffsetPx}px))`,
                 transition: isDragging || !isTransitioning ? 'none' : 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
@@ -473,6 +493,10 @@ export default function Work() {
                   <div
                     key={proj.cloneKey}
                     className={`peek-card-slide ${isActive ? 'peek-card-slide--active' : 'peek-card-slide--side'}`}
+                    style={{
+                      flex: `0 0 ${cardWidth}px`,
+                      width: `${cardWidth}px`,
+                    }}
                     onClick={() => !isActive && setTrackIdx(i)}
                   >
                     {/* Dark Card (#0E1620) with RAW Screenshot (NO MOCKUP FRAME, NO BROWSER CHROME) */}

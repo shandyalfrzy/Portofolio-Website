@@ -10,7 +10,6 @@ const navLinks = [
 
 export default function Navbar() {
   const [activeLink, setActiveLink] = useState('#home');
-  const [mobileOpen, setMobileOpen] = useState(false);
   const clickScrolling = useRef(false);
 
   useEffect(() => {
@@ -43,7 +42,6 @@ export default function Navbar() {
   const handleLinkClick = (e, href) => {
     e.preventDefault();
     setActiveLink(href);
-    setMobileOpen(false);
 
     clickScrolling.current = true;
     const el = document.querySelector(href);
@@ -75,7 +73,7 @@ export default function Navbar() {
         </div>
 
         <nav
-          className={`navbar-pill ${mobileOpen ? 'navbar-pill--open' : ''}`}
+          className="navbar-pill"
           aria-label="Main navigation"
         >
           <ul className="navbar-links">
@@ -102,21 +100,7 @@ export default function Navbar() {
             <span>shandyalfrzy@gmail.com</span>
           </a>
         </div>
-
-        <button
-          className={`navbar-hamburger ${mobileOpen ? 'navbar-hamburger--open' : ''}`}
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle navigation menu"
-          aria-expanded={mobileOpen}
-          id="navbar-hamburger"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
       </div>
-
-      {mobileOpen && <div className="navbar-overlay" onClick={() => setMobileOpen(false)} />}
     </header>
   );
 }

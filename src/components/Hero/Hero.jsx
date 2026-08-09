@@ -13,6 +13,17 @@ export default function Hero({ isLoaded = true }) {
     e.currentTarget.style.setProperty('--circle-y', `${y}px`);
   };
 
+  const handleTouchStart = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const touch = e.touches[0];
+    if (touch) {
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+      e.currentTarget.style.setProperty('--circle-x', `${x}px`);
+      e.currentTarget.style.setProperty('--circle-y', `${y}px`);
+    }
+  };
+
   return (
     <section className={`hero ${isLoaded ? 'hero--loaded' : 'hero--loading'}`} id="home" ref={ref}>
       <div className="hero-bg" aria-hidden="true">
@@ -88,8 +99,7 @@ export default function Hero({ isLoaded = true }) {
           data-reveal
           style={{ '--reveal-delay': '200ms' }}
         >
-          Most interfaces you can scroll right past. The ones I build<br className="hero-br-desktop" />
-          do this to your eyes.
+          Most interfaces you can scroll right past. The ones I build <br className="hero-br-desktop" />do this to your eyes.
         </p>
 
         <div
@@ -102,6 +112,7 @@ export default function Hero({ isLoaded = true }) {
             className="btn btn-primary"
             id="cta-see-work"
             onMouseEnter={handleMouseEnter}
+            onTouchStart={handleTouchStart}
           >
             <span className="btn-circle-reveal" aria-hidden="true" />
             <span className="btn-label">
@@ -117,6 +128,7 @@ export default function Hero({ isLoaded = true }) {
             className="btn btn-secondary"
             id="cta-get-in-touch"
             onMouseEnter={handleMouseEnter}
+            onTouchStart={handleTouchStart}
           >
             <span className="btn-circle-reveal" aria-hidden="true" />
             <span className="btn-label">

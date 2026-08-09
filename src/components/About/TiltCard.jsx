@@ -45,6 +45,39 @@ export default function TiltCard() {
     setImageTransform('');
   };
 
+  const handleTouchStart = (e) => {
+    setIsHovered(true);
+    if (!cardRef.current || !e.touches[0]) return;
+    const touch = e.touches[0];
+    const rect = cardRef.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+
+    const mouseX = (touch.clientX - rect.left) / width - 0.5;
+    const mouseY = (touch.clientY - rect.top) / height - 0.5;
+
+    const rotateX = -mouseY * 20;
+    const rotateY = mouseX * 20;
+    const shiftX = -mouseX * 10;
+    const shiftY = -mouseY * 10;
+
+    setCardTransform(
+      `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.04, 1.04, 1.04)`
+    );
+
+    setImageTransform(
+      `translate3d(${shiftX.toFixed(2)}px, ${shiftY.toFixed(2)}px, 15px) scale(1.04)`
+    );
+  };
+
+  const handleTouchEnd = () => {
+    setTimeout(() => {
+      setIsHovered(false);
+      setCardTransform('');
+      setImageTransform('');
+    }, 1000);
+  };
+
   return (
     <div className="tilt-card-container">
       <div
@@ -54,6 +87,9 @@ export default function TiltCard() {
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         <div className="tilt-card-image-wrapper">
           <img

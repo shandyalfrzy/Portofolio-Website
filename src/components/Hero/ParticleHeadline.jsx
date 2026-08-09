@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 // ── Config ──────────────────────────────────────────────────────────────
 const LINES         = ['I DESIGN IT,', 'THEN I BUILD IT.'];
@@ -14,18 +14,34 @@ function pickColor() {
   return Math.random() < ORANGE_RATIO ? COLOR_ORANGE : COLOR_NAVY;
 }
 
-function getFontSize() {
+function getFontSize(W) {
   const vw = window.innerWidth;
   if (vw >= 1400) return 158;
   if (vw >= 1100) return 132;
-  if (vw >= 800)  return 108;
-  if (vw >= 540)  return 80;
-  return 58;
+  if (vw >= 768)  return 100;
+  if (vw >= 480)  return 60;
+  
+  // On mobile (< 480px), scale fs dynamically relative to container width W
+  const baseFs = Math.min(42, Math.max(30, Math.floor(W * 0.105)));
+  return baseFs;
 }
 
-function getGap() {
-  // Fewer particles on small screens for 60fps
-  return window.innerWidth < 640 ? 7 : 5;
+function getGap(fs) {
+  if (fs >= 100) return 5;
+  if (fs >= 60)  return 4;
+  return 3; // Dense particle sampling for mobile so letters are sharp & legible
+}
+
+function getDotSize(fs) {
+  if (fs >= 100) return 3.5;
+  if (fs >= 60)  return 2.8;
+  return 2.4;
+}
+
+function getRepelRadius(fs) {
+  const vw = window.innerWidth;
+  if (vw < 768) return Math.min(50, fs * 1.1);
+  return REPEL_RADIUS;
 }
 
 function debounce(fn, ms) {
@@ -38,6 +54,7 @@ export default function ParticleHeadline() {
   const canvasRef  = useRef(null);
   const ctxRef     = useRef(null);
   const ptsRef     = useRef([]);   // particle array
+  const configRef  = useRef({ dotSize: DOT_SIZE, repelRadius: REPEL_RADIUS });
   const mouseRef   = useRef({ x: -9999, y: -9999 });
   const rafRef     = useRef(null);
   const reducedRef = useRef(
@@ -45,16 +62,56 @@ export default function ParticleHeadline() {
     window.matchMedia('(prefers-reduced-motion: reduce)').matches
   );
 
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+    };
+
+    const onResize = debounce(checkMobile, 150);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
   // ── Build: sample text → create particle array ──────────────────────
   const build = useCallback(() => {
+    if (isMobile) return;
     const canvas = canvasRef.current;
     if (!canvas || !canvas.parentElement) return;
 
     const dpr   = window.devicePixelRatio || 1;
     const W     = canvas.parentElement.clientWidth;
-    const fs    = getFontSize();
+    let fs      = getFontSize(W);
+    const gap   = getGap(fs);
+    const dotSz = getDotSize(fs);
+    const repelR= getRepelRadius(fs);
+
+    configRef.current = { dotSize: dotSz, repelRadius: repelR };
+
+    // Offscreen measurement check to ensure no line overflows on narrow mobile screens
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCtx.font = `400 ${fs}px Anton, sans-serif`;
+    
+    let maxLineWidth = 0;
+    LINES.forEach(line => {
+      const w = tempCtx.measureText(line).width;
+      if (w > maxLineWidth) maxLineWidth = w;
+    });
+
+    if (maxLineWidth > W * 0.94 && W > 0) {
+      fs = Math.floor(fs * (W * 0.94 / maxLineWidth));
+    }
+
     const lineH = Math.round(fs * 0.88);     // ultra-tight: lines nearly touching
-    const padY  = Math.round(fs * 0.12);     // minimal top/bottom breathing room
+    const padY  = Math.round(fs * 0.16);     // top/bottom breathing room
     const H     = lineH * LINES.length + padY;
 
     // Resize the main canvas (DPR-sharp)
@@ -86,7 +143,6 @@ export default function ParticleHeadline() {
     // Sample pixel grid
     const imgData = offCtx.getImageData(0, 0, W, H);
     const data    = imgData.data;
-    const gap     = getGap();
     const list    = [];
 
     for (let py = 0; py < H; py += gap) {
@@ -104,10 +160,11 @@ export default function ParticleHeadline() {
     }
 
     ptsRef.current = list;
-  }, []);
+  }, [isMobile]);
 
   // ── Render one frame ─────────────────────────────────────────────────
   const tick = useCallback(() => {
+    if (isMobile) return;
     const canvas = canvasRef.current;
     const ctx    = ctxRef.current;
     if (!canvas || !ctx) return;
@@ -116,7 +173,8 @@ export default function ParticleHeadline() {
     const H  = parseInt(canvas.style.height, 10);
     const mx = mouseRef.current.x;
     const my = mouseRef.current.y;
-    const rr = REPEL_RADIUS * REPEL_RADIUS;
+    const { dotSize, repelRadius } = configRef.current;
+    const rr = repelRadius * repelRadius;
 
     ctx.clearRect(0, 0, W, H);
 
@@ -130,7 +188,7 @@ export default function ParticleHeadline() {
       // Repel if inside radius
       if (d2 < rr && d2 > 0) {
         const dist  = Math.sqrt(d2);
-        const force = (REPEL_RADIUS - dist) / REPEL_RADIUS;
+        const force = (repelRadius - dist) / repelRadius;
         p.vx += (dx / dist) * force * 9;
         p.vy += (dy / dist) * force * 9;
       }
@@ -147,38 +205,46 @@ export default function ParticleHeadline() {
       p.y += p.vy;
 
       ctx.fillStyle = p.color;
-      ctx.fillRect(p.x - DOT_SIZE * 0.5, p.y - DOT_SIZE * 0.5, DOT_SIZE, DOT_SIZE);
+      ctx.fillRect(p.x - dotSize * 0.5, p.y - dotSize * 0.5, dotSize, dotSize);
     }
 
     rafRef.current = requestAnimationFrame(tick);
-  }, []);
+  }, [isMobile]);
 
   // ── Static draw for reduced-motion ───────────────────────────────────
   const drawStatic = useCallback(() => {
+    if (isMobile) return;
     const ctx    = ctxRef.current;
     const canvas = canvasRef.current;
     if (!ctx || !canvas) return;
     const W = parseInt(canvas.style.width,  10);
     const H = parseInt(canvas.style.height, 10);
+    const { dotSize } = configRef.current;
     ctx.clearRect(0, 0, W, H);
     ptsRef.current.forEach(p => {
       ctx.fillStyle = p.color;
-      ctx.fillRect(p.homeX - DOT_SIZE * 0.5, p.homeY - DOT_SIZE * 0.5, DOT_SIZE, DOT_SIZE);
+      ctx.fillRect(p.homeX - dotSize * 0.5, p.homeY - dotSize * 0.5, dotSize, dotSize);
     });
-  }, []);
+  }, [isMobile]);
 
   // ── Initialise / restart ─────────────────────────────────────────────
   const start = useCallback(() => {
     cancelAnimationFrame(rafRef.current);
+    if (isMobile) return;
     build();
     if (reducedRef.current) {
       drawStatic();
     } else {
       rafRef.current = requestAnimationFrame(tick);
     }
-  }, [build, drawStatic, tick]);
+  }, [build, drawStatic, tick, isMobile]);
 
   useEffect(() => {
+    if (isMobile) {
+      cancelAnimationFrame(rafRef.current);
+      return;
+    }
+
     // Defer until Anton is ready so sampling is accurate
     document.fonts.load('400 100px Anton').then(start).catch(start);
 
@@ -189,7 +255,7 @@ export default function ParticleHeadline() {
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener('resize', onResize);
     };
-  }, [start]);
+  }, [start, isMobile]);
 
   // ── Pointer / touch ───────────────────────────────────────────────────
   const onMouseMove = useCallback((e) => {
@@ -214,6 +280,15 @@ export default function ParticleHeadline() {
   const onTouchEnd = useCallback(() => {
     mouseRef.current = { x: -9999, y: -9999 };
   }, []);
+
+  if (isMobile) {
+    return (
+      <h1 className="hero-static-headline" aria-label="I DESIGN IT, THEN I BUILD IT.">
+        <span className="headline-line-1">I DESIGN IT,</span>
+        <span className="headline-line-2">THEN I BUILD IT.</span>
+      </h1>
+    );
+  }
 
   return (
     <canvas
