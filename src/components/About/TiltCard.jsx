@@ -93,14 +93,14 @@ export default function TiltCard() {
           <div className="tilt-card-image-wrapper">
             <img
               src={profileImg}
-              alt="Shandy Alfrizy"
+              alt="Shandy Alfarizy"
               className="tilt-card-image"
               style={isHovered ? { transform: imageTransform } : undefined}
             />
           </div>
 
           <div className="tilt-card-caption">
-            <span className="tilt-card-name">SHANDY ALFRIZY</span>
+            <span className="tilt-card-name">SHANDY ALFARIZY</span>
             <span className="tilt-card-role">UI/UX Designer &amp; Web Developer</span>
           </div>
         </div>

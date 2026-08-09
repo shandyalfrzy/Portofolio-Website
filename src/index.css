@@ -100,39 +100,37 @@ body {
   font-weight: 500;
   line-height: 29px;
   color: var(--color-navy);
-  background-color: #f8fcff;
+  background-color: transparent;
   overflow-x: hidden;
   position: relative;
 }
 
-/* --- Fixed Global Background Layer (Subtle Gradient Mesh + Low-Opacity Dot-Grid) --- */
+/* --- Fixed Global Background Layer (Sky Blue Gradient + Cloud Layer + Dot Grid Overlay) --- */
 .global-bg-layer {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image:
-    radial-gradient(rgba(20, 32, 43, 0.08) 1px, transparent 1px),
-    radial-gradient(
-      circle at 10% 20%,
-      rgba(184, 223, 248, 0.35) 0%,
-      transparent 40%
-    ),
-    radial-gradient(
-      circle at 90% 60%,
-      rgba(13, 153, 255, 0.08) 0%,
-      transparent 45%
-    ),
-    radial-gradient(
-      circle at 50% 90%,
-      rgba(240, 83, 28, 0.05) 0%,
-      transparent 40%
-    );
-  background-size:
-    28px 28px,
-    100% 100%,
-    100% 100%,
-    100% 100%;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    #3b79c9 0%,
+    #5699ea 18%,
+    #74b6f7 38%,
+    #96cdfa 60%,
+    #c3e4fc 80%,
+    #e6f4fe 100%
+  );
+}
+
+.global-bg-layer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(20, 32, 43, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+  z-index: 2;
+  pointer-events: none;
 }
 
 h1,

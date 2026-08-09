@@ -10,16 +10,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  /* Deep saturated sky blue — vivid and rich */
-  background: linear-gradient(
-    180deg,
-    #1565c8 0%,
-    #1e80e8 18%,
-    #3b9ef5 38%,
-    #72bef7 60%,
-    #aad8fb 80%,
-    #d8effe 100%
-  );
+  background: transparent;
 }
 
 /* --- Sky background & clouds --- */
@@ -182,12 +173,14 @@
   font-weight: 400;
   text-transform: uppercase;
   text-align: center;
-  font-size: clamp(46px, 13.5vw, 64px);
-  line-height: 0.9;
+  font-size: clamp(60px, 8.5vw, 54px);
+  line-height: 0.98;
   margin-bottom: 20px;
   color: var(--color-navy);
-  letter-spacing: 1em;
-  gap: 4px;
+  letter-spacing: -0.02em;
+  gap: 6px;
+  max-width: 100%;
+  width: 100%;
 }
 
 .hero-static-headline .headline-line-1,
