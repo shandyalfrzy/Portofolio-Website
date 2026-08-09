@@ -1,5 +1,5 @@
 /* ===================================================
-   Contact Section Styles (Form & Discord Social Card)
+   Contact Section Styles (Editorial Underline Redesign)
    =================================================== */
 
 .contact {
@@ -50,87 +50,109 @@
   color: var(--color-slate);
 }
 
-/* Split Layout: Contact Form (Left) + Social Cards (Right) */
+/* Split Layout: Contact Form (Left) + Social List (Right) */
 .contact-split-layout {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
-  gap: 48px;
+  gap: 64px;
   align-items: start;
 }
 
 /* ===================================================
-   CONTACT FORM STYLING (Per design-system.md)
+   EDITORIAL UNDERLINE FORM STYLING
    =================================================== */
 
 .contact-form-container {
-  background: var(--color-white);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-card); /* 14px */
-  padding: 32px;
-  box-shadow: var(--shadow-level-2);
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  border: none;
 }
 
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 28px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .form-label {
   font-family: var(--font-mono);
   font-size: 11.5px;
   font-weight: 700;
-  color: var(--color-navy);
+  color: var(--color-slate);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 
 .required-star {
   color: var(--color-orange);
 }
 
-/* Inputs: white bg, #8AA6B8 border, 10px radius, cyan focus ring */
+/* Underline wrapper with scaleX focus line animation */
+.input-underline-wrapper {
+  position: relative;
+  width: 100%;
+  border-bottom: 1px solid #8AA6B8;
+}
+
+.input-focus-draw {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--color-orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+/* Editorial input field styling: large text, no background box */
 .form-input {
   width: 100%;
   box-sizing: border-box;
-  background: #FFFFFF;
-  border: 1px solid #8AA6B8;
-  border-radius: 10px;
-  padding: 12px 16px;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 10px 0 14px 0;
   font-family: var(--font-body);
-  font-size: 15px;
+  font-size: 26px;
+  font-weight: 500;
   color: var(--color-navy);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  outline: none;
+  box-shadow: none !important;
 }
 
 .form-input::placeholder {
   color: var(--color-muted);
-  opacity: 0.7;
+  opacity: 0.55;
+  font-size: 24px;
 }
 
-.form-input:focus {
-  outline: none;
-  border-color: #0D99FF; /* Cyan focus ring */
-  box-shadow: 0 0 0 3.5px rgba(13, 153, 255, 0.18);
+.form-input:focus ~ .input-focus-draw {
+  transform: scaleX(1);
 }
 
 .form-input--error {
-  border-color: #EF4444 !important;
+  color: #EF4444;
 }
 
-.form-input--error:focus {
-  box-shadow: 0 0 0 3.5px rgba(239, 68, 68, 0.18) !important;
+.input-underline-wrapper:has(.form-input--error) {
+  border-bottom-color: #EF4444;
 }
 
 .form-textarea {
-  resize: vertical;
-  min-height: 110px;
+  resize: none;
+  overflow: hidden;
+  min-height: 48px;
+  line-height: 1.35;
 }
 
 .form-error {
@@ -138,6 +160,7 @@
   font-size: 11px;
   font-weight: 600;
   color: #EF4444;
+  margin-top: 4px;
 }
 
 /* Status Banner */
@@ -184,16 +207,59 @@
   to { transform: rotate(360deg); }
 }
 
-.contact-submit-btn {
+/* Editorial Submit Link-style CTA */
+.submit-btn-wrapper {
+  margin-top: 8px;
+}
+
+.editorial-submit-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 12px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--color-orange);
+  position: relative;
+  text-decoration: none;
+}
+
+.editorial-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-underline-draw {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
   width: 100%;
-  justify-content: center;
-  padding: 14px 24px;
-  font-size: 15px;
-  margin-top: 4px;
+  height: 2px;
+  background: var(--color-orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.editorial-submit-btn:hover:not(:disabled) .btn-underline-draw {
+  transform: scaleX(1);
+}
+
+.editorial-submit-btn:hover:not(:disabled) .submit-arrow {
+  transform: translateX(8px);
+}
+
+.submit-arrow {
+  color: var(--color-orange);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* ===================================================
-   SOCIAL LINKS COLUMN (GitHub, LinkedIn, Instagram, Discord)
+   EDITORIAL STACKED SOCIAL LIST (No cards)
    =================================================== */
 
 .contact-social-col {
@@ -204,90 +270,83 @@
 
 .social-col-title {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
   color: var(--color-slate);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+.editorial-social-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(20, 32, 43, 0.12);
+  margin-top: 4px;
 }
 
-/* Social Card Styling */
-.contact-card {
+.editorial-social-item {
+  border-bottom: 1px solid rgba(20, 32, 43, 0.12);
+}
+
+.editorial-social-link {
   display: flex;
   align-items: center;
-  gap: 16px;
-  background: var(--color-white);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-card); /* 14px */
-  padding: 18px 22px;
+  justify-content: space-between;
+  padding: 22px 0;
   text-decoration: none;
-  box-shadow: var(--shadow-level-1);
-  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.social-left-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.social-icon-fade {
+  color: var(--color-orange);
   opacity: 0;
-  transform: translateY(20px);
-}
-
-.contact--visible .contact-card {
-  animation: cardFadeUp 0.6s ease forwards;
-}
-
-@keyframes cardFadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.contact-card-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: var(--color-light-blue-gray);
-  color: var(--color-navy);
+  transform: scale(0.7) translateX(-10px);
+  transition: opacity 0.25s ease, transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.28s ease;
+  width: 24px;
+  height: 24px;
 }
 
-.contact-card-name {
-  font-family: var(--font-body);
-  font-size: 16px;
-  font-weight: 700;
+.social-name {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
   color: var(--color-navy);
-  flex-grow: 1;
+  transition: color 0.25s ease;
 }
 
-.contact-card-arrow {
+.social-arrow {
   color: var(--color-slate);
   opacity: 0.4;
-  transition: all 0.28s ease;
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease, opacity 0.25s ease;
 }
 
-/* Card Hover Accent Colors */
-.card-github:hover { border-color: #24292E; transform: translateY(-4px); box-shadow: rgba(36, 41, 46, 0.16) 0 12px 24px -6px; }
-.card-github:hover .contact-card-icon { background: #24292E; color: var(--color-white); }
-.card-github:hover .contact-card-arrow { color: #24292E; opacity: 1; transform: translate(3px, -3px); }
+.editorial-social-link:hover .social-left-group {
+  transform: translateX(10px);
+}
 
-.card-linkedin:hover { border-color: #0A66C2; transform: translateY(-4px); box-shadow: rgba(10, 102, 194, 0.16) 0 12px 24px -6px; }
-.card-linkedin:hover .contact-card-icon { background: #0A66C2; color: var(--color-white); }
-.card-linkedin:hover .contact-card-arrow { color: #0A66C2; opacity: 1; transform: translate(3px, -3px); }
+.editorial-social-link:hover .social-icon-fade {
+  opacity: 1;
+  transform: scale(1) translateX(0);
+}
 
-.card-instagram:hover { border-color: #E4405F; transform: translateY(-4px); box-shadow: rgba(228, 64, 95, 0.16) 0 12px 24px -6px; }
-.card-instagram:hover .contact-card-icon { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: var(--color-white); }
-.card-instagram:hover .contact-card-arrow { color: #E4405F; opacity: 1; transform: translate(3px, -3px); }
+.editorial-social-link:hover .social-name {
+  color: var(--color-orange);
+}
 
-/* Discord Card Hover Accent */
-.card-discord:hover { border-color: #5865F2; transform: translateY(-4px); box-shadow: rgba(88, 101, 242, 0.2) 0 12px 24px -6px; }
-.card-discord:hover .contact-card-icon { background: #5865F2; color: var(--color-white); }
-.card-discord:hover .contact-card-arrow { color: #5865F2; opacity: 1; transform: translate(3px, -3px); }
+.editorial-social-link:hover .social-arrow {
+  transform: translate(5px, -5px);
+  color: var(--color-orange);
+  opacity: 1;
+}
 
 /* Background Blurred Blobs */
 .contact-blobs {
@@ -337,15 +396,23 @@
 @media (max-width: 1023px) {
   .contact-split-layout {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 48px;
   }
 
   .contact-headline {
     font-size: 34px;
   }
 
-  .contact-grid {
-    grid-template-columns: 1fr 1fr;
+  .form-input {
+    font-size: 22px;
+  }
+
+  .editorial-social-link {
+    padding: 18px 0;
+  }
+
+  .social-name {
+    font-size: 24px;
   }
 }
 
@@ -358,11 +425,19 @@
     font-size: 28px;
   }
 
-  .contact-form-container {
-    padding: 20px;
+  .form-input {
+    font-size: 20px;
   }
 
-  .contact-grid {
-    grid-template-columns: 1fr;
+  .form-input::placeholder {
+    font-size: 18px;
+  }
+
+  .editorial-submit-btn {
+    font-size: 22px;
+  }
+
+  .social-name {
+    font-size: 22px;
   }
 }
