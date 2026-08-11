@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { SiFigma, SiCanvas, SiReact, SiJavascript, SiHtml5, SiCss, SiTailwindcss, SiVscodium, SiGit, SiGithub, SiObsstudio } from 'react-icons/si';
+import { SiFigma, SiCanvas, SiReact, SiJavascript, SiPython, SiHtml5, SiCss, SiTailwindcss, SiBootstrap, SiVscodium, SiGit, SiGithub, SiObsstudio } from 'react-icons/si';
+import { FaJava } from 'react-icons/fa6';
 import { Database, Image, Video } from 'lucide-react';
 import weddingImg from '../../assets/Wedding.png';
 import desakitaImg from '../../assets/DesaKita.png';
@@ -14,8 +15,11 @@ const IconPhotoshop = () => <Image size={22} />;
 const IconCapcut = () => <Video size={22} />;
 const IconReact = () => <SiReact size={22} />;
 const IconJs = () => <SiJavascript size={22} />;
+const IconPython = () => <SiPython size={22} />;
+const IconJava = () => <FaJava size={22} />;
 const IconHtmlCss = () => <span style={{ display: 'inline-flex', gap: '3px' }}><SiHtml5 size={18} /><SiCss size={18} /></span>;
 const IconTailwind = () => <SiTailwindcss size={22} />;
+const IconBootstrap = () => <SiBootstrap size={22} />;
 const IconVscode = () => <SiVscodium size={22} />;
 const IconGit = () => <SiGit size={22} />;
 const IconGithub = () => <SiGithub size={22} />;
@@ -58,8 +62,12 @@ const designTools = [
 const devTools = [
   { name: 'React', category: 'Frontend UI Framework', Icon: IconReact, colorClass: 'brand-card-react' },
   { name: 'JavaScript', category: 'Core Language (ES6+)', Icon: IconJs, colorClass: 'brand-card-js' },
+  { name: 'Python', category: 'Scripting & Automation', Icon: IconPython, colorClass: 'brand-card-python' },
+  { name: 'Java', category: 'Object-Oriented Programming', Icon: IconJava, colorClass: 'brand-card-java' },
+  { name: 'SQL', category: 'Database Query Language', Icon: IconDb, colorClass: 'brand-card-sql' },
   { name: 'HTML/CSS', category: 'Semantic Web Structure', Icon: IconHtmlCss, colorClass: 'brand-card-html' },
   { name: 'Tailwind CSS', category: 'Utility-First Styling', Icon: IconTailwind, colorClass: 'brand-card-tailwind' },
+  { name: 'Bootstrap', category: 'Responsive UI Framework', Icon: IconBootstrap, colorClass: 'brand-card-bootstrap' },
   { name: 'VS Code', category: 'Primary IDE Workspace', Icon: IconVscode, colorClass: 'brand-card-vscode' },
   { name: 'Git', category: 'Version Control System', Icon: IconGit, colorClass: 'brand-card-git' },
   { name: 'GitHub', category: 'Code Hosting & CI/CD', Icon: IconGithub, colorClass: 'brand-card-github' },
