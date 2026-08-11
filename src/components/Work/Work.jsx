@@ -97,7 +97,8 @@ const projects = [
       'A UI/UX case study for a village tourism companion app, designed to help visitors discover and navigate local attractions.',
     image: desakitaImg,
     tags: ['Figma', 'UI/UX Design'],
-    targetUrl: 'https://www.figma.com/design/aMiDbhNSMFz4AiFw9r5SUh/dpp-project-desa-wisata-kemiling?node-id=778-399&t=VwZiNdUNnK0iCMya-1',
+    targetUrl: 'https://www.figma.com/proto/aMiDbhNSMFz4AiFw9r5SUh/dpp-project-desa-wisata-kemiling?node-id=852-441&p=f&t=5TwIVAHOk2RNCMOJ-0&scaling=scale-down&content-scaling=fixed&page-id=778%3A399&starting-point-node-id=852%3A441&show-proto-sidebar=1',
+    actionText: 'View prototype',
   },
   {
     id: 'mymedalarm',
@@ -110,7 +111,8 @@ const projects = [
       'A UI/UX design for a medication reminder app, focused on helping users stay consistent with their medication schedules.',
     image: mymedalarmImg,
     tags: ['Figma', 'UI/UX Design'],
-    targetUrl: 'https://www.figma.com/design/OzdNqKOxOflrLfWafn9D1R/Shandy---MyMed-Alarm?node-id=0-1&t=sr27hjeic22wM3WJ-1',
+    targetUrl: 'https://www.figma.com/proto/OzdNqKOxOflrLfWafn9D1R/Shandy---MyMed-Alarm?node-id=11-19&p=f&t=A2WaEVCpJHgr1PTH-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=10%3A3',
+    actionText: 'View prototype',
   },
 ];
 
@@ -521,7 +523,7 @@ export default function Work() {
                               onClick={(e) => e.stopPropagation()}
                             >
                               <span className="btn-label">
-                                View design
+                                {proj.actionText || 'View design'}
                                 <ExternalLinkIcon />
                               </span>
                             </a>
