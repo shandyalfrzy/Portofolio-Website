@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import { SiFigma, SiCanvas, SiReact, SiJavascript, SiPython, SiHtml5, SiCss, SiTailwindcss, SiBootstrap, SiVscodium, SiGit, SiGithub, SiObsstudio } from 'react-icons/si';
+import { SiFigma, SiCanvas, SiReact, SiJavascript, SiPython, SiHtml5, SiCss, SiTailwindcss, SiBootstrap, SiGit, SiGithub, SiObsstudio } from 'react-icons/si';
 import { FaJava } from 'react-icons/fa6';
+import { TbBrandVscode } from 'react-icons/tb';
 import { Database, Image, Video } from 'lucide-react';
 import weddingImg from '../../assets/Wedding.png';
 import desakitaImg from '../../assets/DesaKita.png';
@@ -20,7 +21,7 @@ const IconJava = () => <FaJava size={22} />;
 const IconHtmlCss = () => <span style={{ display: 'inline-flex', gap: '3px' }}><SiHtml5 size={18} /><SiCss size={18} /></span>;
 const IconTailwind = () => <SiTailwindcss size={22} />;
 const IconBootstrap = () => <SiBootstrap size={22} />;
-const IconVscode = () => <SiVscodium size={22} />;
+const IconVscode = () => <TbBrandVscode size={22} />;
 const IconGit = () => <SiGit size={22} />;
 const IconGithub = () => <SiGithub size={22} />;
 const GithubIcon = () => <SiGithub size={16} />;
